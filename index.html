@@ -43,19 +43,9 @@
 
       <div class="room-shot">
         <picture>
-          <source media="(max-width: 899px)" srcset="room_elvin_solo_mobile.jpg" width="720" height="1280">
-          <img class="room-photo" src="room_elvin_solo.jpg" alt="M Branding.aigc 夜间工作室：Elvin 在桌前制作 AI 分身视频" width="1280" height="720">
+          <source media="(min-width:900px)" srcset="room_elvin_solo_v1h.jpg" width="1280" height="720">
+          <img class="room-photo" src="room_elvin_solo_mobile_v1h.jpg" alt="M Branding.aigc 工作室：Elvin 在桌前" width="720" height="1280">
         </picture>
-
-        <!-- Text painted onto the blank wall poster -->
-        <div class="poster-caption" aria-hidden="true">
-          <div class="poster-brand">M BRANDING.AIGC</div>
-          <div class="poster-title">AI 分身<br>视频实战课</div>
-          <div class="poster-price">RM199</div>
-        </div>
-
-        <span class="monitor-fx" aria-hidden="true"></span>
-        <span class="cat-paw" aria-hidden="true"></span>
 
         <button type="button" class="hs" id="hsClapper" data-open-drawer="demos" aria-label="示范影片">
           <span class="hs-glow"></span>
@@ -65,7 +55,15 @@
           <span class="lbl-en">DEMOS</span>
         </span>
 
-        <button type="button" class="hs" id="hsCourse" data-open-drawer="course" aria-label="课程介绍 RM199 / S$59">
+        <button type="button" class="hs" id="hsWorks" data-open-drawer="works" aria-label="作品集">
+          <span class="hs-glow"></span>
+        </button>
+        <span class="hs-label" data-open-drawer="works">
+          <span class="lbl-zh">作品集</span>
+          <span class="lbl-en">WORKS</span>
+        </span>
+
+        <button type="button" class="hs" id="hsCourse" data-open-drawer="course" aria-label="课程介绍">
           <span class="hs-glow"></span>
         </button>
         <span class="hs-label" data-open-drawer="course">
@@ -73,20 +71,12 @@
           <span class="lbl-en">COURSE</span>
         </span>
 
-        <button type="button" class="hs" id="hsWindow" data-open-drawer="about" aria-label="关于讲师 Elvin">
-          <span class="hs-glow hs-glow-win"></span>
+        <button type="button" class="hs" id="hsWindow" data-open-drawer="about" aria-label="关于讲师">
+          <span class="hs-glow"></span>
         </button>
         <span class="hs-label" data-open-drawer="about">
           <span class="lbl-zh">关于讲师</span>
           <span class="lbl-en">ABOUT</span>
-        </span>
-
-        <button type="button" class="hs" id="hsWorks" data-open-drawer="works" aria-label="作品集 Works">
-          <span class="hs-glow"></span>
-        </button>
-        <span class="hs-label" data-open-drawer="works">
-          <span class="lbl-zh">作品集</span>
-          <span class="lbl-en">WORKS</span>
         </span>
 
         <button type="button" class="hs" id="hsChat" data-open-drawer="whatsapp" aria-label="找我聊 WhatsApp">
@@ -97,23 +87,21 @@
           <span class="lbl-en">WHATSAPP</span>
         </span>
 
-        <button type="button" class="hs" id="hsCat" data-open-drawer="enroll" aria-label="报名 RM199 / S$59">
+        <button type="button" class="hs" id="hsCat" data-open-drawer="enroll" aria-label="报名">
           <span class="hs-glow"></span>
         </button>
         <span class="hs-label" data-open-drawer="enroll">
           <span class="lbl-zh">报名</span>
           <span class="lbl-en">ENROLL · RM199</span>
         </span>
-
       </div>
 
       <div class="room-hint">
-        房间里的每一样东西，都可以点点看。
-        <span>Everything in this studio can be clicked</span>
+        <p>房间里的每一样东西，都可以点点看。<span class="hint-en">Everything in this studio can be clicked</span></p>
       </div>
     </main>
 
-    <!-- MOBILE-FIRST BOTTOM BAR (AND DESKTOP BOTTOM-RIGHT FLOATING BAR) -->
+            <!-- MOBILE-FIRST BOTTOM BAR (AND DESKTOP BOTTOM-RIGHT FLOATING BAR) -->
     <nav class="bottom-bar" aria-label="快速导航与学员登录">
       <button type="button" class="bb-item" data-open-drawer="works">
         <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><polygon points="10,9 15,12 10,15" fill="currentColor" stroke="none"/></svg>
@@ -424,7 +412,7 @@
               <p>前置自拍视角，适合老板、顾问与创作者持续输出日常观点。</p>
               <div class="drawer-script">一镜到底："有句话，我一直很喜欢——一切都会过去。这句话，我信了很多年。后来才发现——会过去的，也包括当初相信它的我。"</div>
             </div>
-            <div class="ph-box">[占位] EDU-008 三支 NORA 示范视频成品定稿后将嵌入此处直接播放。</div>
+            <div class="ph-box">[占位] EDU-008 三支示范视频成品定稿后将嵌入此处直接播放。</div>
           `
         },
         course: {
@@ -433,8 +421,9 @@
           html: `
             <div class="offer-box">
               <div class="offer-price">RM199 <span style="opacity:.55">/</span> S$59</div>
-              <div class="offer-sub">明码实价 · 含 HeyAIGC 账号 + 1400 积分 · 学完带走 3 支成品</div>
+              <div class="offer-sub">明码实价 · 含 HeyAIGC 账号 + 1400 积分 · 学完带走 3 支 15 秒 720P 成品</div>
             </div>
+            <p style="font-size:14px;color:var(--ink-2);margin:4px 0 12px">6 个短课 + CapCut 剪辑实操，从人物设计、ChatGPT 定妆照到 HeyAIGC 竖屏成片。零基础按步骤自己做出来，不用自己写复杂 Prompt。</p>
             <div class="sp-mini">
               <div class="sp-mini-item"><b>01 真人出镜 / 全程不出镜都能做</b>可选真人 AI Twin，或从零设计虚拟 AI Character。</div>
               <div class="sp-mini-item"><b>02 点选生成中文 Prompt，不用自己写</b>课程页内置 AI Character Builder，勾选项即生成并一键复制。</div>
@@ -451,10 +440,40 @@
               <div class="syl-row"><span>M06</span>用 HeyAIGC 做出第 1 支 15 秒视频</div>
               <div class="syl-row"><span>M07</span>CapCut 剪辑、字幕校对与 BGM 导出</div>
             </div>
-            <p style="font-size:12.5px;color:var(--ink-2);margin-bottom:12px"><b>领学讲师：</b>Elvin（真人 AI Twin）× NORA（虚拟 AI Character）</p>
+            <p style="font-size:12.5px;color:var(--ink-2);margin:14px 0 12px">领学讲师 Elvin 会带你从人物设计做到第 1 支 15 秒竖屏成片；课程同时示范虚拟人物路线，全程也可以不出镜。</p>
+            <div style="font-size:12px;font-weight:700;color:var(--ink);margin:4px 0 6px">示范影片（产品 / 服务 / 个人 IP）</div>
+            <p style="font-size:13px;color:var(--ink-2);margin-bottom:8px">课程覆盖三种真实场景：达人饮品种草、签证咨询口播、街头观点自拍，各 15 秒。</p>
+            <div class="ph-box">[占位] 三支示范视频待接入 EDU-008 成品后，将在此预览播放。</div>
             <button type="button" class="btn-primary" id="drawerBuyBtn">立即报名 · RM199 / S$59（待接入付款链接）</button>
             <div class="ph-box">[占位] 正式付款按钮待接入 HeyAIGC Stripe Checkout；若你已收到 Registration Code，可点下方直接激活进入课程。</div>
             <button type="button" style="width:100%;margin-top:10px;padding:10px;border-radius:10px;border:1px solid var(--accent);color:var(--accent);font-weight:700;font-size:13.5px" id="drawerGoRegBtn">已有 Registration Code？去注册激活 →</button>
+          `
+        },
+        about: {
+          k: "ABOUT · ELVIN",
+          t: "关于讲师",
+          html: `
+            <p style="font-size:14px;color:var(--ink-2);margin-bottom:14px">Elvin 陈奇嵩，M Branding.aigc 创始人。这门《AI 分身视频实战课》由他设计并亲授：用 AI 分身拍产品、服务与个人 IP，按步骤做出自己的成片。</p>
+            <div class="dw-card">
+              <div class="dw-tag">M BRANDING.AIGC</div>
+              <h4>学完带走 3 支 15 秒成品</h4>
+              <p>课程价格 RM199 / S$59，含 HeyAIGC 账号与 1400 积分。想先聊聊适不适合你的行业，点下面找我聊。</p>
+            </div>
+            <button type="button" class="btn-primary" id="drawerAboutChatBtn">找我聊 →</button>
+          `
+        },
+        ip: {
+          k: "AI IP · M BRANDING.AIGC",
+          t: "Miya · 我们的 AI 品牌 IP",
+          html: `
+            <p style="font-size:14px;color:var(--ink-2);margin-bottom:14px">M Branding 做 AI 品牌 IP（AI 分身 / 品牌虚拟人）：用一张脸、一个角色，持续为品牌出镜。</p>
+            <div class="dw-card">
+              <div class="dw-tag">OUR AI IP</div>
+              <h4>Miya 是我们自己的 AI IP 例子</h4>
+              <p>墙上这张肖像就是 Miya。课程会示范如何做出这样的分身，用在产品、服务与个人品牌里。</p>
+            </div>
+            <button type="button" class="btn-primary" id="drawerIpChatBtn">找我聊 →</button>
+            <div class="ph-box">点上面会打开 WhatsApp 咨询（正式 wa.me 链接待接入）。</div>
           `
         },
         whatsapp: {
@@ -493,21 +512,9 @@
             <div class="dw-card"><div class="dw-tag">DEMO 02 · 服务宣传</div><h4>签证咨询口播（15 秒）</h4><p>痛点钩子 → 展示方案 → 引导咨询。</p><div class="ph-box" style="margin-top:8px">[占位] 示范视频播放器待接入 EDU-008 成品。</div></div>
             <div class="dw-card"><div class="dw-tag">DEMO 03 · 个人 IP</div><h4>街头观点自拍（15 秒）</h4><p>一镜到底：金句钩子 → 个人故事 → 反转感悟。</p><div class="ph-box" style="margin-top:8px">[占位] 示范视频播放器待接入 EDU-008 成品。</div></div>
           `
-        },
-        about: {
-          k: "ABOUT · 领学讲师",
-          t: "Elvin · M Branding.aigc",
-          html: `
-            <p style="font-size:14px;color:var(--ink-2);margin-bottom:14px">Elvin 是本课领学讲师，也是课程里「真人 AI Twin」路线的示范。他会带你走完从人物设计、ChatGPT 定妆照、Character Sheet，到用 HeyAIGC 做出第 1 支 15 秒会说话的竖屏视频，并补上 CapCut 剪辑、字幕与 BGM。</p>
-            <div class="dw-card">
-              <div class="dw-tag">双人示范领学</div>
-              <h4>Elvin（真人 AI Twin）× NORA（虚拟 AI Character）</h4>
-              <p>一条路线用自己的正脸照做出分身，一条路线从零创造虚拟人物、全程不必出镜。产品、服务、个人 IP 三种脚本都会示范。</p>
-            </div>
-            <p style="font-size:12.5px;color:var(--ink-2)">想先问适不适合你的行业，可以点房间里的手机，走 WhatsApp 咨询。</p>
-          `
         }
       };
+
 
       function openDrawer(key) {
         const d = DRAWERS[key];
@@ -530,6 +537,20 @@
         if (buyBtn) {
           buyBtn.addEventListener("click", () => {
             showToast("[占位] 正式 Stripe 付款链接待接入 HeyAIGC Funnel");
+          });
+        }
+        const ipChat = document.getElementById("drawerIpChatBtn");
+        if (ipChat) {
+          ipChat.addEventListener("click", () => {
+            closeDrawer();
+            openDrawer("whatsapp");
+          });
+        }
+        const aboutChat = document.getElementById("drawerAboutChatBtn");
+        if (aboutChat) {
+          aboutChat.addEventListener("click", () => {
+            closeDrawer();
+            openDrawer("whatsapp");
           });
         }
       }

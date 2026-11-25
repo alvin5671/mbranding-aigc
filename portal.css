@@ -430,320 +430,237 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 
 
-/* ===== PHOTO HERO (desktop 16:9 room_elvin_solo.jpg / mobile 9:16 room_elvin_solo_mobile.jpg) ===== */
-.studio-stage{
+/* ===== PHOTO HERO — v1h (mobile 9:16 + desktop 16:9) ===== */
+#landingView{
   position:relative;
   min-height:100dvh;
-  height:100dvh;
-  display:flex;
-  flex-direction:column;
-  background:#2e2017;
   overflow:hidden;
+  background:#1a1510;
+  color:var(--cream);
+  font-family:var(--sans);
 }
-.studio-head{
-  position:absolute;
-  top:0;left:0;right:0;
+#landingView > .top{
+  position:relative;
   z-index:30;
-  flex:none;
-  padding:12px 16px;
-  background:linear-gradient(180deg, rgba(20,12,8,.55), transparent);
 }
 
-/* Mobile / portrait: 9:16 painting as a full-screen cover */
-.room-hero-art{
-  position:absolute;
-  inset:0;
-  margin-bottom:0;
-  padding-top:0;
-  display:block;
-  overflow:hidden;
-}
+/* Full-bleed 9:16 room, cover-scaled so the desk sits above the caption (v1f) */
 .room-shot{
+  --desk: .825;
+  --desk-y: 646px;
+  --art-h: 824px;
   position:absolute;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:auto;
-  height:max(100%, calc(100vw * 16 / 9));
-  min-width:100%;
-  min-height:100%;
-  aspect-ratio:9/16;
-  margin:0;
-  container-type:inline-size;
+  z-index:1;
+  height:var(--art-h);
+  width:calc(var(--art-h) * 9 / 16);
+  top:calc(var(--desk-y) - var(--desk) * var(--art-h));
+  left:50%;
+  transform:translateX(-50%);
+  overflow:hidden;
+  background:#1a1510;
 }
+.room-photo,
 .room-shot picture{
   display:block;
   width:100%;
   height:100%;
+  object-fit:cover;
+  object-position:center top;
 }
-.room-photo{
+.room-shot picture{ pointer-events:none; }
+
+/* Title block sits in the wall band, ~50px above shelves/frame */
+.room-hero{
+  position:absolute;
+  z-index:8;
+  left:20px;
+  right:20px;
+  top:161px;
+  text-align:center;
+  pointer-events:none;
+}
+.room-kicker{
+  margin:0 0 8px;
+  font-family:var(--serif);
+  font-size:10px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(232,214,184,.72);
+}
+.room-hero h1{
+  margin:0 0 8px;
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:22px;
+  line-height:1.25;
+  letter-spacing:.02em;
+  color:var(--cream);
+}
+.room-sub{
+  margin:0;
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:11.5px;
+  line-height:1.45;
+  color:rgba(201,168,108,.92);
+}
+
+/* Caption: 24px under the desk, both lines fully above the bar */
+.room-hint{
+  position:absolute;
+  z-index:8;
+  left:16px;
+  right:16px;
+  top:670px;
+  bottom:auto;
+  text-align:center;
+  pointer-events:none;
+}
+.room-hint p{
+  margin:0;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.02em;
+  color:rgba(245,236,220,.88);
+}
+.room-hint .hint-en{
+  display:block;
+  margin-top:3px;
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:11.5px;
+  font-weight:400;
+  letter-spacing:.01em;
+  color:rgba(201,184,158,.78);
+}
+
+/* Invisible leaders from the v3 landing — not used on v1h */
+.hs-leaders{ display:none !important; }
+
+/* Hotspots sit on the objects; most labels are invisible but still clickable */
+.hs{
+  position:absolute;
+  z-index:6;
+  padding:0;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.hs-glow{
   display:block;
   width:100%;
   height:100%;
-  object-fit:fill;
-  user-select:none;
-  pointer-events:none;
-  -webkit-user-drag:none;
-}
-
-/* Title sits in the dark top wall (~0–38% of the 9:16 art) */
-.room-hero{
-  position:absolute;
-  left:0;right:0;
-  top:max(52px, 7.2%);
-  z-index:8;
-  text-align:center;
-  padding:0 16px;
-  pointer-events:none;
-  text-shadow:0 2px 18px rgba(0,0,0,.65);
-}
-.room-kicker{
-  font-family:"IBM Plex Mono",monospace;
-  font-size:clamp(8px,2.5vw,11px);
-  letter-spacing:.16em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:2px;
-}
-.room-hero h1{
-  font-family:"Noto Serif SC",Georgia,serif;
-  font-weight:700;
-  font-size:clamp(20px,6.4vw,28px);
-  line-height:1.2;letter-spacing:.02em;
-  color:var(--champagne);
-}
-.room-sub{
-  margin-top:3px;
-  font-size:clamp(11px,3.3vw,14px);
-  color:var(--champagne-dim);font-style:italic;
-}
-
-/* Poster caption: omitted on mobile (frame is tight once cover-cropped); shown on desktop */
-.poster-caption{
-  display:none;
-  position:absolute;
-  left:45.55%;top:25.15%;
-  width:8.15%;height:9.6%;
-  flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;
-  pointer-events:none;
-  color:#3a2a20;
-  line-height:1.15;
-  overflow:hidden;
-}
-.poster-brand{
-  font-family:"Archivo","Noto Sans SC",sans-serif;
-  font-weight:800;
-  font-size:0.72cqw;
-  letter-spacing:.05em;
-  line-height:1.1;
-  white-space:nowrap;
-}
-.poster-title{
-  font-family:"Noto Serif SC",serif;
-  font-weight:700;
-  font-size:0.98cqw;
-  margin-top:0.28cqw;
-  line-height:1.15;
-}
-.poster-price{
-  font-family:"IBM Plex Mono",monospace;
-  font-weight:700;
-  font-size:0.8cqw;
-  color:#7a3e22;
-  margin-top:0.2cqw;
-}
-
-/* Clickable hotspots — boxes are % of the current painting */
-.room-shot > .hs{
-  position:absolute;
-  padding:0;border:0;background:transparent;
-  cursor:pointer;
-  z-index:5;
-  border-radius:6px;
-}
-.room-shot > .hs .hs-glow{
-  position:absolute;inset:-4px;
   border-radius:10px;
-  border:2px solid rgba(239,227,194,0);
-  box-shadow:0 0 0 0 rgba(239,227,194,0);
-  background:rgba(239,227,194,0);
+  box-shadow:none;
+  background:transparent;
   opacity:0;
-  transition:opacity .2s, box-shadow .2s, border-color .2s, background .2s;
   pointer-events:none;
+  transition:opacity .2s, background .2s;
 }
-.room-shot > .hs:hover .hs-glow,
-.room-shot > .hs:focus-visible .hs-glow,
-.room-shot > .hs.is-on .hs-glow{
+.hs:hover .hs-glow,
+.hs:focus-visible .hs-glow{
   opacity:1;
-  border-color:rgba(239,227,194,.85);
-  background:rgba(239,227,194,.10);
-  box-shadow:0 0 22px rgba(239,227,194,.45), 0 0 0 1px rgba(239,227,194,.35);
+  background:rgba(255,255,255,.06);
+  box-shadow:0 0 0 1px rgba(232,214,184,.28);
 }
-.room-shot > .hs:focus-visible{outline:none}
-.hs-glow-win{border-radius:4px}
 
-.room-shot > .hs-label{
+.hs-label{
   position:absolute;
   z-index:7;
-  display:flex;flex-direction:column;
+  transform:translate(-50%,-100%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1px;
+  padding:2px 0 0;
   cursor:pointer;
   white-space:nowrap;
-  filter:drop-shadow(0 2px 8px rgba(0,0,0,.75));
-  transition:transform .18s, opacity .18s;
+  text-shadow:0 1px 6px rgba(12,10,8,.85);
+  pointer-events:auto;
 }
-.room-shot > .hs-label .lbl-zh{
-  font-family:"Noto Sans SC",sans-serif;
+.hs-label .lbl-zh{
+  font-size:12px;
   font-weight:700;
-  font-size:13px;
-  color:#efe3c2;
-  line-height:1.15;
+  letter-spacing:.06em;
+  color:#f6efe4;
 }
-.room-shot > .hs-label .lbl-en{
-  font-family:"IBM Plex Mono",monospace;
-  font-size:9px;
-  letter-spacing:.08em;
-  color:#cbbfa0;
-  margin-top:1px;
+.hs-label .lbl-en{
+  font-size:8.5px;
+  font-weight:600;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(201,184,158,.85);
 }
-.room-shot > .hs-label:hover .lbl-zh{color:#fff}
+.hs-label[data-open-drawer="enroll"] .lbl-en{ display:none; }
 
-/* Mobile 9:16 hotspot boxes (% of room_elvin_solo_mobile.jpg) */
-#hsClapper{left:13.8%;top:39.0%;width:11.2%;height:7.0%}
-#hsCourse{left:39.0%;top:38.8%;width:20.8%;height:11.0%}
-#hsWindow{left:69.8%;top:38.0%;width:29.0%;height:24.2%}
-#hsWorks{left:1.2%;top:54.8%;width:26.8%;height:19.2%}
-#hsChat{left:19.6%;top:69.6%;width:10.5%;height:11.2%;z-index:6}
-#hsCat{left:81.0%;top:70.8%;width:11.8%;height:12.0%}
-
-/* Staggered labels — clapper above the shelf, poster above the frame */
-.room-shot > .hs-label[data-open-drawer="demos"]{left:13.2%;top:31.0%}
-.room-shot > .hs-label[data-open-drawer="course"]{left:42.0%;top:35.2%}
-.room-shot > .hs-label[data-open-drawer="about"]{left:72.8%;top:39.4%}
-.room-shot > .hs-label[data-open-drawer="works"]{left:12.0%;top:55.2%}
-.room-shot > .hs-label[data-open-drawer="whatsapp"]{left:30.0%;top:67.4%}
-.room-shot > .hs-label[data-open-drawer="enroll"]{left:auto;right:10.0%;top:66.8%;align-items:flex-end;text-align:right}
-
-/* Subtle monitor screen flicker — mobile screen inset */
-.monitor-fx{
-  position:absolute;
-  left:3.8%;top:56.4%;
-  width:21.5%;height:13.5%;
-  pointer-events:none;
-  z-index:3;
-  border-radius:1.2% / 2%;
-  background:linear-gradient(180deg, rgba(180,210,255,.18), rgba(255,255,255,0) 42%, rgba(120,190,255,.10));
-  mix-blend-mode:screen;
-  animation:screenFlicker 5.6s ease-in-out infinite;
-}
-@keyframes screenFlicker{
-  0%,100%{opacity:.32}
-  3%{opacity:.08}
-  5%{opacity:.38}
-  48%{opacity:.22}
-  51%{opacity:.05}
-  54%{opacity:.34}
-  82%{opacity:.18}
+/* Hidden-but-clickable labels stay on their objects */
+.hs-label[data-open-drawer="demos"],
+.hs-label[data-open-drawer="course"],
+.hs-label[data-open-drawer="about"],
+.hs-label[data-open-drawer="works"]{
+  opacity:0;
 }
 
-/* Lucky-cat raised paw bob — mobile */
-.cat-paw{
-  position:absolute;
-  left:88.5%;top:72.0%;
-  width:4.2%;height:5.5%;
-  pointer-events:none;
-  z-index:3;
-  transform-origin:20% 90%;
-  animation:pawWave 2.6s ease-in-out infinite;
-  background:radial-gradient(ellipse at 50% 35%, rgba(255,236,214,.4), rgba(255,236,214,0) 70%);
-  border-radius:50%;
-  filter:blur(.4px);
-}
-@keyframes pawWave{
-  0%,100%{transform:rotate(0deg) translateY(0)}
-  35%{transform:rotate(-16deg) translateY(-6%)}
-  55%{transform:rotate(7deg) translateY(2%)}
-  72%{transform:rotate(-9deg) translateY(-3%)}
-}
+/* --- Mobile object boxes (9:16 v1h) --- */
+#hsClapper{ left:20%; top:40%; width:14%; height:9%; }
+#hsWorks  { left:4%;  top:57%; width:24%; height:18%; }
+#hsCourse { left:37%; top:41%; width:18%; height:13%; }
+#hsWindow { left:66%; top:41%; width:24%; height:16%; }
+#hsChat   { left:21%; top:67%; width:12%; height:13%; }
+#hsCat    { left:70%; top:64%; width:18%; height:16%; }
 
-/* Hint sits on the dark floor, above the bottom bar, not over desk objects */
-.room-hint{
-  position:absolute;
-  left:0;right:0;
-  bottom:calc(84px + env(safe-area-inset-bottom,0px));
-  z-index:8;
-  margin:0;
-  padding:0 16px;
-  text-align:center;
-  font-size:12.5px;
-  color:var(--champagne-dim);
-  text-shadow:0 2px 10px rgba(0,0,0,.7);
-  pointer-events:none;
-}
-.room-hint span{
-  display:block;
-  font-size:10.5px;font-style:italic;color:var(--muted);margin-top:1px;
-}
+.hs-label[data-open-drawer="demos"]    { left:10%;  top:39.5%; }
+.hs-label[data-open-drawer="course"]   { left:36%;  top:41.5%; }
+.hs-label[data-open-drawer="about"]    { left:66%;  top:40%; }
+.hs-label[data-open-drawer="works"]    { left:12%;  top:63%; }
+.hs-label[data-open-drawer="whatsapp"] { left:28%;  top:71%; }
+.hs-label[data-open-drawer="enroll"]   { left:77%;  top:65.5%; }
 
+/* ===== Desktop 16:9 v1h — cover the viewport like live v1 (crop sides on 16:10) ===== */
 @media (min-width:900px){
-  .studio-stage{
-    height:100dvh;
-    background:#2e2017;
-  }
-  .studio-head{padding:18px 36px}
-  .room-hero-art{
-    position:absolute;
-    inset:0;
-    margin-bottom:0;
-    padding-top:0;
-    display:block;
-    overflow:hidden;
-  }
-  /* 16:9 painting covers the viewport; leftover wall color matches the art */
   .room-shot{
-    position:absolute;
-    top:50%;left:50%;
-    transform:translate(-50%,-50%);
-    width:auto;
-    height:max(100%, calc(100vw * 9 / 16));
-    min-width:100%;
-    min-height:100%;
-    aspect-ratio:16/9;
-    margin:0;
+    width:calc(100dvh * 16 / 9);
+    height:100dvh;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
   }
   .room-hero{
-    position:absolute;
-    left:0;right:0;
-    top:7.5%;
-    padding:0 24px;
+    top:72px;
+    left:24px;
+    right:24px;
   }
-  .room-kicker{font-size:10px;letter-spacing:.2em;margin-bottom:4px}
-  .room-hero h1{font-size:clamp(32px,3.3vw,42px)}
-  .room-sub{font-size:13px;margin-top:4px}
-  .room-shot > .hs-label .lbl-zh{font-size:15px}
-  .room-shot > .hs-label .lbl-en{font-size:10.5px}
+  .room-kicker{ font-size:11px; letter-spacing:.18em; margin-bottom:10px; }
+  .room-hero h1{ font-size:32px; margin-bottom:10px; }
+  .room-sub{ font-size:15px; }
+
+  /* Caption on the front of the desk, left of the login pill — same as live v1 */
   .room-hint{
-    position:absolute;
-    left:0;right:0;
-    bottom:18px;
-    padding:0 280px 0 24px;
-    font-size:13px;
+    top:auto;
+    bottom:28px;
+    left:18%;
+    right:30%;
   }
-  .room-hint span{font-size:12px}
+  .room-hint p{ font-size:15px; }
+  .room-hint .hint-en{ font-size:13px; }
 
-  /* Restore approved desktop 16:9 hotspot boxes (% of room_elvin_solo.jpg) */
-  #hsClapper{left:28.4%;top:18.6%;width:8.0%;height:12.4%}
-  #hsCourse{left:43.0%;top:23.5%;width:12.8%;height:13.8%}
-  #hsWindow{left:63.4%;top:21.0%;width:20.2%;height:43.0%}
-  #hsWorks{left:18.3%;top:48.0%;width:17.2%;height:32.5%}
-  #hsChat{left:32.3%;top:69.2%;width:5.8%;height:18.0%;z-index:6}
-  #hsCat{left:69.4%;top:73.2%;width:9.8%;height:16.5%}
-  .room-shot > .hs-label[data-open-drawer="demos"]{left:36.8%;top:19.2%}
-  .room-shot > .hs-label[data-open-drawer="course"]{left:36.0%;top:25.8%}
-  .room-shot > .hs-label[data-open-drawer="about"]{left:73.8%;top:22.6%}
-  .room-shot > .hs-label[data-open-drawer="works"]{left:19.6%;top:49.4%}
-  .room-shot > .hs-label[data-open-drawer="whatsapp"]{left:38.4%;top:67.4%}
-  .room-shot > .hs-label[data-open-drawer="enroll"]{left:66.8%;right:auto;top:68.8%;align-items:flex-start;text-align:left}
+  #hsClapper{ left:28%; top:14%; width:10%; height:14%; }
+  #hsWorks  { left:15%; top:40%; width:18%; height:34%; }
+  #hsCourse { left:43.5%; top:23%; width:12%; height:14%; }
+  #hsWindow { left:64%; top:24%; width:18%; height:32%; }
+  #hsChat   { left:31%; top:68%; width:8%; height:16%; }
+  #hsCat    { left:68%; top:76%; width:14%; height:18%; }
 
-  .poster-caption{display:flex}
-  .monitor-fx{left:19.6%;top:49.6%;width:14.4%;height:24.8%}
-  .cat-paw{left:74.5%;top:75.2%;width:3.8%;height:7.2%}
+  .hs-label[data-open-drawer="demos"]    { left:33%;  top:16%; }
+  .hs-label[data-open-drawer="course"]   { left:49%;  top:23%; }
+  .hs-label[data-open-drawer="about"]    { left:73%;  top:22%; }
+  .hs-label[data-open-drawer="works"]    { left:24%;  top:52%; }
+  /* 找我聊 sits by the phone, between iMac and Elvin */
+  .hs-label[data-open-drawer="whatsapp"] { left:38%;  top:68%; }
+  /* 报名 sits directly above the lucky cat */
+  .hs-label[data-open-drawer="enroll"]   { left:74%;  top:78%; }
+
+  .hs-label .lbl-zh{ font-size:13px; }
+  .hs-label .lbl-en{ font-size:9px; }
 }
-
