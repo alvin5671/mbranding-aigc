@@ -760,3 +760,181 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     animation:none !important;
   }
 }
+
+/* ===== Background music toggle (landing) ===== */
+.bgm-toggle{
+  position:fixed;
+  z-index:45;
+  left:12px;
+  bottom:calc(var(--bar-h, 82px) + 10px);
+  width:40px;
+  height:40px;
+  padding:0;
+  border-radius:50%;
+  border:1px solid rgba(239,227,194,.32);
+  background:rgba(24,20,15,.86);
+  backdrop-filter:blur(10px);
+  color:#f6efe4;
+  cursor:pointer;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 6px 18px rgba(0,0,0,.38);
+  -webkit-tap-highlight-color:transparent;
+}
+.bgm-toggle:not([hidden]){ display:flex; }
+.bgm-toggle:hover,
+.bgm-toggle:focus-visible{
+  border-color:rgba(239,227,194,.6);
+  color:#fff;
+  outline:none;
+}
+.bgm-toggle .bgm-note{
+  width:18px;
+  height:18px;
+  display:block;
+}
+.bgm-toggle .bgm-bars{
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  gap:2px;
+  height:14px;
+  width:16px;
+}
+.bgm-toggle .bgm-bars i{
+  display:block;
+  width:2.5px;
+  height:6px;
+  border-radius:1px;
+  background:currentColor;
+  transform-origin:center bottom;
+  animation:bgmBar .9s ease-in-out infinite;
+}
+.bgm-toggle .bgm-bars i:nth-child(1){ animation-delay:0s; }
+.bgm-toggle .bgm-bars i:nth-child(2){ height:11px; animation-delay:.18s; }
+.bgm-toggle .bgm-bars i:nth-child(3){ animation-delay:.32s; }
+.bgm-toggle.is-on .bgm-note{ display:none; }
+.bgm-toggle.is-on .bgm-bars{ display:flex; }
+
+@keyframes bgmBar{
+  0%,100%{ transform:scaleY(.45); }
+  50%{ transform:scaleY(1); }
+}
+
+@media (min-width:900px){
+  .bgm-toggle{
+    left:20px;
+    bottom:20px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .bgm-toggle .bgm-bars i{ animation:none; transform:none; height:8px; }
+}
+
+/* ===== Elvin speech bubble ===== */
+#hsElvin{
+  left:35%;
+  top:51%;
+  width:30%;
+  height:27%;
+  z-index:6;
+}
+@media (min-width:900px){
+  #hsElvin{
+    left:42.5%;
+    top:26%;
+    width:19%;
+    height:48%;
+  }
+}
+
+.talk-bubble{
+  position:fixed;
+  z-index:16;
+  left:0;
+  top:0;
+  max-width:min(70vw, 320px);
+  padding:10px 14px 11px;
+  background:#f7f0e4;
+  color:#2a2118;
+  border-radius:16px;
+  font-family:var(--sans);
+  font-size:14.5px;
+  font-weight:600;
+  line-height:1.5;
+  letter-spacing:.01em;
+  text-align:left;
+  box-shadow:0 8px 22px rgba(12,10,8,.35);
+  pointer-events:none;
+  transform-origin:var(--tail-x, 50%) 100%;
+}
+.talk-bubble[hidden]{ display:none !important; }
+.talk-bubble .talk-text{
+  margin:0;
+  text-wrap:balance;
+  line-break:strict;
+  overflow-wrap:normal;
+  word-break:normal;
+}
+.talk-bubble .talk-nb{
+  white-space:nowrap;
+}
+.talk-br-m{ display:block; }
+@media (min-width:900px){
+  .talk-br-m{ display:none; }
+}
+.talk-bubble::after{
+  content:"";
+  position:absolute;
+  width:0;
+  height:0;
+  left:var(--tail-x, 50%);
+  transform:translateX(-50%);
+  bottom:-8px;
+  border-left:8px solid transparent;
+  border-right:8px solid transparent;
+  border-top:8px solid #f7f0e4;
+  filter:drop-shadow(0 2px 1px rgba(12,10,8,.12));
+}
+.talk-bubble[data-tail="left"]::after{
+  left:-8px;
+  top:50%;
+  bottom:auto;
+  transform:translateY(-50%);
+  border-top:8px solid transparent;
+  border-bottom:8px solid transparent;
+  border-right:8px solid #f7f0e4;
+  border-left:0;
+}
+.talk-bubble[data-tail="right"]::after{
+  left:auto;
+  right:-8px;
+  top:50%;
+  bottom:auto;
+  transform:translateY(-50%);
+  border-top:8px solid transparent;
+  border-bottom:8px solid transparent;
+  border-left:8px solid #f7f0e4;
+  border-right:0;
+}
+.talk-bubble.is-pop{
+  animation:talkPop .38s cubic-bezier(.2,1.15,.4,1);
+}
+@keyframes talkPop{
+  from{ opacity:0; transform:translateY(8px) scale(.94); }
+  to{ opacity:1; transform:translateY(0) scale(1); }
+}
+
+@media (min-width:900px){
+  .talk-bubble{
+    max-width:min(34vw, 420px);
+    font-size:15px;
+    padding:10px 16px 11px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .talk-bubble.is-pop{ animation:none; }
+}

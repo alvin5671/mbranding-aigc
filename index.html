@@ -5,7 +5,7 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%23232018%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23c0794d%27/%3E%3C/svg%3E">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AI 分身视频实战课｜M Branding.aigc</title>
-  <meta name="description" content="M Branding.aigc · AI 分身视频实战课：RM199 / S$59，学完带走 3 支 15 秒 720P 成品。点击工作室任意物件探索课程与作品。">
+  <meta name="description" content="M Branding.aigc · AI 分身视频实战课：USD 49.90，学完带走 3 支 15 秒 720P 成品。点击工作室任意物件探索课程与作品。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap">
@@ -38,7 +38,7 @@
       <section class="room-hero">
         <div class="room-kicker">AI TWIN VIDEO STUDIO · M BRANDING.AIGC</div>
         <h1>欢迎来到 AI 分身视频工作室</h1>
-        <p class="room-sub">RM199 / S$59 · 学完带走 3 支成品 · 6 个短课 + CapCut 剪辑</p>
+        <p class="room-sub">USD 49.90 · 学完带走 3 支成品 · 6 个短课 + CapCut 剪辑</p>
       </section>
 
       <div class="room-shot">
@@ -100,8 +100,16 @@
         </button>
         <span class="hs-label" data-open-drawer="enroll">
           <span class="lbl-zh">报名</span>
-          <span class="lbl-en">ENROLL · RM199</span>
+          <span class="lbl-en">ENROLL · USD 49.90</span>
         </span>
+
+        <button type="button" class="hs hs-elvin" id="hsElvin" aria-label="和 Elvin 聊聊" aria-controls="talkBubble">
+          <span class="hs-glow"></span>
+        </button>
+      </div>
+
+      <div class="talk-bubble" id="talkBubble" role="status" aria-live="polite" hidden>
+        <p class="talk-text" id="talkText"></p>
       </div>
 
       <div class="room-hint">
@@ -197,6 +205,16 @@
       <h3 id="drawerTitle">标题</h3>
       <div id="drawerBody"></div>
     </div>
+
+    <button type="button" id="bgmToggle" class="bgm-toggle" hidden aria-label="背景音乐" aria-pressed="false" title="背景音乐">
+      <svg class="bgm-note" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9 18V6l12-2v12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="6" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <circle cx="18" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      </svg>
+      <span class="bgm-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+    <audio id="bgmAudio" loop preload="none"></audio>
   </div>
 
   <!-- 2. LOGGED-IN COURSE VIEW (EXACT CLAUDE COURSE PAGES FROM SUPABASE) -->
@@ -428,7 +446,7 @@
           t: "AI 分身视频实战课",
           html: `
             <div class="offer-box">
-              <div class="offer-price">RM199 <span style="opacity:.55">/</span> S$59</div>
+              <div class="offer-price">USD 49.90</div>
               <div class="offer-sub">明码实价 · 含 HeyAIGC 账号 + 1400 积分 · 学完带走 3 支 15 秒 720P 成品</div>
             </div>
             <p style="font-size:14px;color:var(--ink-2);margin:4px 0 12px">6 个短课 + CapCut 剪辑实操，从人物设计、ChatGPT 定妆照到 HeyAIGC 竖屏成片。零基础按步骤自己做出来，不用自己写复杂 Prompt。</p>
@@ -452,7 +470,7 @@
             <div style="font-size:12px;font-weight:700;color:var(--ink);margin:4px 0 6px">示范影片（产品 / 服务 / 个人 IP）</div>
             <p style="font-size:13px;color:var(--ink-2);margin-bottom:8px">课程覆盖三种真实场景：达人饮品种草、签证咨询口播、街头观点自拍，各 15 秒。</p>
             <div class="ph-box">[占位] 三支示范视频待接入 EDU-008 成品后，将在此预览播放。</div>
-            <button type="button" class="btn-primary" id="drawerBuyBtn">立即报名 · RM199 / S$59（待接入付款链接）</button>
+            <button type="button" class="btn-primary" id="drawerBuyBtn">立即报名 · USD 49.90（待接入付款链接）</button>
             <div class="ph-box">[占位] 正式付款按钮待接入 HeyAIGC Stripe Checkout；若你已收到 Registration Code，可点下方直接激活进入课程。</div>
             <button type="button" style="width:100%;margin-top:10px;padding:10px;border-radius:10px;border:1px solid var(--accent);color:var(--accent);font-weight:700;font-size:13.5px" id="drawerGoRegBtn">已有 Registration Code？去注册激活 →</button>
           `
@@ -465,7 +483,7 @@
             <div class="dw-card">
               <div class="dw-tag">M BRANDING.AIGC</div>
               <h4>学完带走 3 支 15 秒成品</h4>
-              <p>课程价格 RM199 / S$59，含 HeyAIGC 账号与 1400 积分。想先聊聊适不适合你的行业，点下面找我聊。</p>
+              <p>课程价格 USD 49.90，含 HeyAIGC 账号与 1400 积分。想先聊聊适不适合你的行业，点下面找我聊。</p>
             </div>
             <button type="button" class="btn-primary" id="drawerAboutChatBtn">找我聊 →</button>
           `
@@ -491,22 +509,22 @@
             <p style="font-size:14px;color:var(--ink-2);margin-bottom:14px">想确认这门课适不适合你的行业、如何用 AI 分身拍产品 / 服务 / 个人 IP，或刚付款未收到 Registration Code，都可以直接通过 WhatsApp 联系我们。</p>
             <div class="dw-card">
               <div class="dw-tag">M BRANDING.AIGC · 课程顾问</div>
-              <h4>课程价格：RM199 / S$59</h4>
+              <h4>课程价格：USD 49.90</h4>
               <p>付款后由 HeyAIGC 邮件发送账号（含 1400 积分）与课程 Registration Code，拿到码即可点击右下角「学员登录 → 注册激活」马上开课。</p>
             </div>
             <div class="ph-box">[占位] 正式 WhatsApp 一键对话链接（wa.me/...）待确认号码后接入。</div>
           `
         },
         enroll: {
-          k: "ENROLL · RM199 / S$59",
+          k: "ENROLL · USD 49.90",
           t: "报名学完带走 3 支成品",
           html: `
             <div class="offer-box">
-              <div class="offer-price">RM199 <span style="opacity:.55">/</span> S$59</div>
+              <div class="offer-price">USD 49.90</div>
               <div class="offer-sub">明码实价 · 含 HeyAIGC 账号 + 1400 积分 · 学完带走 3 支 15 秒 720P 成品</div>
             </div>
             <p style="font-size:14px;color:var(--ink-2);margin:4px 0 12px">6 个短课 + CapCut 剪辑实操，从人物设计、ChatGPT 定妆照到 HeyAIGC 竖屏成片。零基础按步骤自己做出来，不用自己写复杂 Prompt。</p>
-            <button type="button" class="btn-primary" id="drawerBuyBtn">立即报名 · RM199 / S$59（待接入付款链接）</button>
+            <button type="button" class="btn-primary" id="drawerBuyBtn">立即报名 · USD 49.90（待接入付款链接）</button>
             <div class="ph-box">[占位] 正式付款按钮待接入 HeyAIGC Stripe Checkout；若你已收到 Registration Code，可直接注册激活进入课程。</div>
             <button type="button" style="width:100%;margin-top:10px;padding:10px;border-radius:10px;border:1px solid var(--accent);color:var(--accent);font-weight:700;font-size:13.5px" id="drawerGoRegBtn">已有 Registration Code？去注册激活 →</button>
           `
@@ -599,4 +617,352 @@
     })();
   </script>
 </body>
+
+  <script>
+    (function () {
+      const SRC = "bgm.mp3";
+      const KEY = "mb-bgm";
+      const VOL = 0.35;
+      const btn = document.getElementById("bgmToggle");
+      const audio = document.getElementById("bgmAudio");
+      const landing = document.getElementById("landingView");
+      if (!btn || !audio) return;
+
+      let fadeId = 0;
+      let available = false;
+
+      function fadeTo(target, ms, done) {
+        if (fadeId) cancelAnimationFrame(fadeId);
+        const start = audio.volume;
+        const t0 = performance.now();
+        function step(now) {
+          const p = Math.min(1, (now - t0) / ms);
+          audio.volume = start + (target - start) * p;
+          if (p < 1) fadeId = requestAnimationFrame(step);
+          else { fadeId = 0; if (done) done(); }
+        }
+        fadeId = requestAnimationFrame(step);
+      }
+
+      function setOn(on) {
+        btn.classList.toggle("is-on", on);
+        btn.setAttribute("aria-pressed", on ? "true" : "false");
+        btn.setAttribute("aria-label", on ? "关闭背景音乐" : "背景音乐");
+        try { sessionStorage.setItem(KEY, on ? "on" : "off"); } catch (e) {}
+      }
+
+      function play() {
+        audio.volume = 0;
+        const go = function () {
+          setOn(true);
+          fadeTo(VOL, 650);
+        };
+        try {
+          const p = audio.play();
+          if (p && p.then) p.then(go).catch(function () { setOn(false); });
+          else go();
+        } catch (e) { setOn(false); }
+      }
+
+      function pause(immediate) {
+        const off = function () {
+          audio.pause();
+          setOn(false);
+        };
+        if (immediate || audio.paused) off();
+        else fadeTo(0, 420, off);
+      }
+
+      function reveal() {
+        available = true;
+        if (!audio.src) audio.src = SRC;
+        btn.hidden = false;
+        let want = false;
+        try { want = sessionStorage.getItem(KEY) === "on"; } catch (e) {}
+        if (want) play();
+      }
+
+      function conceal() {
+        available = false;
+        pause(true);
+        btn.hidden = true;
+      }
+
+      btn.addEventListener("click", function () {
+        if (audio.paused) play();
+        else pause(false);
+      });
+      audio.addEventListener("error", conceal);
+
+      function landingVisible() {
+        if (!landing) return true;
+        return landing.style.display !== "none" && getComputedStyle(landing).display !== "none";
+      }
+
+      if (landing) {
+        new MutationObserver(function () {
+          if (!available) return;
+          if (!landingVisible()) { if (!audio.paused) pause(true); }
+          else {
+            try {
+              if (sessionStorage.getItem(KEY) === "on" && audio.paused) play();
+            } catch (e) {}
+          }
+        }).observe(landing, { attributes: true, attributeFilter: ["style", "class"] });
+      }
+
+      function probe() {
+        return fetch(SRC, { method: "HEAD", cache: "no-store" }).then(function (r) {
+          if (r.ok) return true;
+          if (r.status === 405 || r.status === 501) {
+            return fetch(SRC, { method: "GET", headers: { Range: "bytes=0-0" }, cache: "no-store" })
+              .then(function (g) { return g.ok || g.status === 206; });
+          }
+          return false;
+        }).catch(function () { return false; });
+      }
+
+      probe().then(function (ok) { if (ok) reveal(); });
+    })();
+  </script>
+
+  <script>
+    (function () {
+      /* Easy to edit: default is shown on load; taps cycle LINES and loop to LINES[0] (not default). */
+      var TALK_DEFAULT = "不要点我哦！😏";
+      var TALK_LINES = [
+        "Eh！叫你不要点，你还点？",
+        "你很叛逆一下哦。",
+        "学 AI 有这么主动就好了。",
+        "还在留言求 Prompt 呀？",
+        "收藏了那么多个 Prompt，作品呢？",
+        "别人用 AI 赚钱，你在这边帮我增加点击率。",
+        "Wah！讲你两句，你还不甘愿哦？",
+        "等一下，我知道你在想什么了……",
+        "不要以为点到最后，课程会免费哦！",
+        "USD 49.90 罢了，你考虑到好像要收购我公司。",
+        "学 AI 不一定会发财，不学 AI 只能看别人发财。",
+        "不要一直看我啦！旁边的「作品」点进去看一下。",
+        "相信自己，你自己也可以做出来的叻。",
+        "点报名啊！18分钟就学会了。搞个作品出来给我"
+      ];
+
+      var hs = document.getElementById("hsElvin");
+      var bubble = document.getElementById("talkBubble");
+      var textEl = document.getElementById("talkText");
+      if (!hs || !bubble || !textEl) return;
+
+      /* -1 = default; 0..n-1 = TALK_LINES */
+      var idx = -1;
+
+      function lineAt(i) {
+        return i < 0 ? TALK_DEFAULT : TALK_LINES[i];
+      }
+
+      /* Keep phrases like 点击率 / Prompt / USD 49.90 / AI on one line.
+         Optional mobile-only <br> after a natural pause (hidden on desktop). */
+      var TALK_BR_AFTER = [
+        "别人用 AI 赚钱，",
+        "USD 49.90 罢了，",
+        "不要一直看我啦！",
+        "相信自己，",
+        "点报名啊！18分钟就学会了。"
+      ];
+      function formatTalk(s) {
+        var tokens = [
+          "USD 49.90",
+          "增加点击率",
+          "点击率",
+          "考虑到",
+          "18分钟就学会了",
+          "学会了",
+          "18分钟",
+          "你在这边",
+          "旁边的「作品」",
+          "「作品」",
+          "Prompt",
+          "不学 AI",
+          "用 AI",
+          "学 AI",
+          "AI"
+        ];
+        var out = s;
+        var i;
+        for (i = 0; i < TALK_BR_AFTER.length; i++) {
+          var cut = TALK_BR_AFTER[i];
+          if (out.indexOf(cut) === 0 || out.indexOf(cut) > -1) {
+            out = out.split(cut).join(cut + "\n");
+            break;
+          }
+        }
+        for (i = 0; i < tokens.length; i++) {
+          if (out.indexOf(tokens[i]) !== -1) {
+            out = out.split(tokens[i]).join("\0" + i + "\0");
+          }
+        }
+        out = out.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        out = out.replace(/\n/g, '<br class="talk-br-m">');
+        for (i = 0; i < tokens.length; i++) {
+          out = out.split("\0" + i + "\0").join('<span class="talk-nb">' + tokens[i] + "</span>");
+        }
+        return out;
+      }
+
+      function overlaps(a, b, pad) {
+        pad = pad || 6;
+        return !(a.right + pad <= b.left || a.left - pad >= b.right ||
+                 a.bottom + pad <= b.top || a.top - pad >= b.bottom);
+      }
+
+      function obstacles() {
+        var list = [];
+        [".room-kicker", ".room-hero h1", ".room-sub", ".studio-head", ".room-hint", ".bottom-bar", "#bgmToggle"].forEach(function (sel) {
+          var el = document.querySelector(sel);
+          if (!el || el.hidden) return;
+          var cs = getComputedStyle(el);
+          if (cs.display === "none" || cs.visibility === "hidden") return;
+          list.push(el.getBoundingClientRect());
+        });
+        document.querySelectorAll(".hs-label").forEach(function (el) {
+          if (getComputedStyle(el).opacity === "0") return;
+          list.push(el.getBoundingClientRect());
+        });
+        return list;
+      }
+
+      function place() {
+        var hr = hs.getBoundingClientRect();
+        if (hr.width < 4) return;
+        var headX = hr.left + hr.width * 0.5;
+        var hairTop = hr.top + 2;
+        var headY = hairTop;
+        var bw = bubble.offsetWidth;
+        var bh = bubble.offsetHeight;
+        var tail = 9;
+        var m = 10;
+        var vw = window.innerWidth;
+        var vh = window.innerHeight;
+        var obs = obstacles();
+        var above = hairTop - tail - bh - 4;
+        var subEl = document.querySelector(".room-sub");
+        var subBottom = subEl ? subEl.getBoundingClientRect().bottom : 0;
+        /* If the preferred 'above head' slot just clips the subtitle, nestle into the gap. */
+        if (above < subBottom + 10 && subBottom + 10 + bh + tail <= hairTop + 6) {
+          above = subBottom + 10;
+        } else if (above < subBottom + 6 && subBottom + 6 + bh + tail <= hairTop + 8) {
+          above = subBottom + 6;
+        }
+
+        var candidates = [
+          { left: headX - bw * 0.5,  top: above, side: "bottom" },
+          { left: headX - bw * 0.38, top: above, side: "bottom" },
+          { left: headX - bw * 0.62, top: above, side: "bottom" },
+          { left: headX - bw * 0.25, top: above, side: "bottom" },
+          { left: hr.right + 10, top: hairTop - bh * 0.35, side: "left" },
+          { left: hr.left - bw - 10, top: hairTop - bh * 0.35, side: "right" }
+        ];
+
+        function clamp(c) {
+          c.left = Math.max(m, Math.min(c.left, vw - bw - m));
+          c.top = Math.max(m, Math.min(c.top, vh - bh - tail - m));
+          return c;
+        }
+
+        function score(c) {
+          var r = { left: c.left, top: c.top, right: c.left + bw, bottom: c.top + bh };
+          var s = 0;
+          if (c.top < m || c.left < m || r.right > vw - m || r.bottom > vh - m) s += 80;
+          obs.forEach(function (o) { if (overlaps(r, o, 4)) s += 40; });
+          /* prefer above the head */
+          if (c.side !== "bottom") s += 18;
+          /* prefer staying close to the head */
+          var cx = c.left + bw / 2, cy = c.top + bh;
+          s += Math.abs(cx - headX) / 80 + Math.abs((c.top + bh + tail) - headY) / 80;
+          return s;
+        }
+
+        var best = clamp(candidates[0]), bestS = 1e9;
+        candidates.forEach(function (c) {
+          c = clamp({ left: c.left, top: c.top, side: c.side });
+          var sc = score(c);
+          if (sc < bestS) { bestS = sc; best = c; }
+        });
+
+        bubble.style.left = Math.round(best.left) + "px";
+        bubble.style.top = Math.round(best.top) + "px";
+        bubble.setAttribute("data-tail", best.side || "bottom");
+
+        var tailX;
+        if (best.side === "left") {
+          tailX = 0;
+        } else if (best.side === "right") {
+          tailX = bw;
+        } else {
+          tailX = headX - best.left;
+        }
+        tailX = Math.max(16, Math.min(bw - 16, tailX));
+        bubble.style.setProperty("--tail-x", Math.round(tailX) + "px");
+      }
+
+      function pop() {
+        bubble.classList.remove("is-pop");
+        void bubble.offsetWidth;
+        bubble.classList.add("is-pop");
+      }
+
+      function show(i, animate) {
+        idx = i;
+        textEl.innerHTML = formatTalk(lineAt(idx));
+        bubble.hidden = false;
+        place();
+        if (animate !== false) pop();
+        place();
+      }
+
+      function next() {
+        if (idx < 0) show(0, true);
+        else show((idx + 1) % TALK_LINES.length, true);
+      }
+
+      hs.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        next();
+      });
+
+      window.addEventListener("resize", function () { place(); });
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", place);
+      }
+
+      /* For previews / QA: window.__setTalk(-1) default, 0..13 for lines */
+      window.__setTalk = function (i) { show(i, false); };
+      window.__talkLines = TALK_LINES;
+      window.__talkDefault = TALK_DEFAULT;
+
+      /* Show default once the landing is on screen */
+      function ready() {
+        var lv = document.getElementById("landingView");
+        if (lv && (lv.style.display === "none" || getComputedStyle(lv).display === "none")) return;
+        if (!textEl.textContent) show(-1, true);
+        else place();
+      }
+
+      var lv = document.getElementById("landingView");
+      if (lv) {
+        new MutationObserver(function () {
+          if (getComputedStyle(lv).display === "none" || lv.style.display === "none") {
+            bubble.hidden = true;
+          } else {
+            bubble.hidden = false;
+            if (!textEl.textContent) show(-1, true);
+            else place();
+          }
+        }).observe(lv, { attributes: true, attributeFilter: ["style", "class"] });
+      }
+
+      if (document.readyState === "complete") setTimeout(ready, 50);
+      else window.addEventListener("load", function () { setTimeout(ready, 50); });
+    })();
+  </script>
 </html>
