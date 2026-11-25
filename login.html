@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%23232018%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23c0794d%27/%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>学员登录｜M Branding.aigc · AI 分身视频实战课</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap">
+  <link rel="stylesheet" href="portal.css">
+</head>
+<body class="auth-page">
+  <header class="studio-head">
+    <a class="studio-logo latin" href="./index.html"><span class="studio-dot"></span>M BRANDING.AIGC</a>
+    <nav class="studio-nav">
+      <a href="./index.html">返回课程介绍</a>
+      <a class="nav-pill" href="./register.html">注册激活</a>
+    </nav>
+  </header>
+
+  <main class="auth-center">
+    <div class="auth-card">
+      <div class="dock-brand mono">STUDENT LOGIN</div>
+      <h1>学员登录</h1>
+      <p class="sub">输入你注册课程时使用的邮箱和密码，进入《AI 分身视频实战课》。</p>
+      <form id="loginForm">
+        <div class="fg">
+          <label for="email">邮箱</label>
+          <input id="email" type="email" required autocomplete="email" placeholder="you@example.com">
+        </div>
+        <div class="fg">
+          <label for="password">密码</label>
+          <input id="password" type="password" required autocomplete="current-password" placeholder="输入密码">
+        </div>
+        <button class="btn-primary" id="submitBtn" type="submit">登录进入课程</button>
+        <div class="msg" id="msgBox"></div>
+      </form>
+      <div class="dock-foot">
+        <a href="./forgot.html">忘记密码？</a>
+        <a href="./register.html">有 Registration Code？去注册 →</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="auth-common.js"></script>
+  <script>
+    (async function () {
+      const { session, enrollment } = await window.checkActiveEnrollment();
+      if (session && enrollment) {
+        location.replace("./index.html");
+        return;
+      }
+      const form = document.getElementById("loginForm");
+      const btn = document.getElementById("submitBtn");
+      const msg = document.getElementById("msgBox");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        msg.className = "msg";
+        msg.textContent = "";
+        btn.disabled = true;
+        btn.textContent = "登录中…";
+        try {
+          const email = document.getElementById("email").value.trim().toLowerCase();
+          const password = document.getElementById("password").value;
+          const { error } = await window.sb.auth.signInWithPassword({ email, password });
+          if (error) throw new Error("邮箱或密码不正确，请检查后再试。");
+          const check = await window.checkActiveEnrollment();
+          if (!check.enrollment) {
+            await window.sb.auth.signOut();
+            throw new Error("此账号尚未完成课程激活，请使用 Registration Code 注册。");
+          }
+          location.replace("./index.html");
+        } catch (err) {
+          msg.className = "msg is-err";
+          msg.textContent = err.message || "登录失败，请重试。";
+          btn.disabled = false;
+          btn.textContent = "登录进入课程";
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

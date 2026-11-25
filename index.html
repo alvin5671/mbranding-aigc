@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%23232018%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23c0794d%27/%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 分身视频实战课｜M Branding.aigc</title>
+  <meta name="description" content="M Branding.aigc · AI 分身视频实战课：RM199 / S$59，学完带走 3 支 15 秒 720P 成品。点击工作室任意物件探索课程与作品。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap">
+  <link id="portalCss" rel="stylesheet" href="portal.css">
+  <style id="courseStyle"></style>
+  <style id="gateAuxStyle">
+    .boot-mask{min-height:100vh;display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-size:13px;color:#efe3c2;letter-spacing:.12em}
+    .course-user-bar{display:flex;align-items:center;gap:10px;margin-left:12px;flex:none}
+    .course-user-email{font-family:var(--f-mono,monospace);font-size:11px;color:var(--muted,#6E756D);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .course-logout-btn{font-family:var(--f-mono,monospace);font-size:11px;padding:5px 11px;border-radius:999px;border:1px solid var(--line-2,#C9CEC4);color:var(--ink-2,#3D453F);background:var(--surface,#fff);cursor:pointer;white-space:nowrap}
+    .course-logout-btn:hover{border-color:var(--accent,#1B5E4A);color:var(--accent,#1B5E4A)}
+    @media (max-width:720px){.course-user-email{display:none}}
+  </style>
+</head>
+<body>
+  <div id="bootMask" class="boot-mask">LOADING · M BRANDING.AIGC…</div>
+
+  <!-- 1. LOGGED-OUT INTERACTIVE ILLUSTRATED STUDIO ROOM -->
+  <div id="landingView" class="studio-stage" style="display:none">
+    <header class="studio-head">
+      <a class="studio-logo" href="./index.html"><span class="studio-dot"></span>M BRANDING.AIGC</a>
+      <nav class="studio-nav">
+        <button type="button" class="hide-xs" data-open-drawer="works">作品</button>
+        <button type="button" data-open-drawer="course">课程介绍</button>
+        <button type="button" class="nav-wa" data-open-drawer="whatsapp">WHATSAPP</button>
+      </nav>
+    </header>
+
+    <main class="room-hero-art" id="roomArt">
+      <section class="room-hero">
+        <div class="room-kicker">AI TWIN VIDEO STUDIO · M BRANDING.AIGC</div>
+        <h1>欢迎来到 AI 分身视频工作室</h1>
+        <p class="room-sub">RM199 / S$59 · 学完带走 3 支成品 · 6 个短课 + CapCut 剪辑</p>
+      </section>
+
+      <div class="room-shot">
+        <picture>
+          <source media="(max-width: 899px)" srcset="room_elvin_solo_mobile.jpg" width="720" height="1280">
+          <img class="room-photo" src="room_elvin_solo.jpg" alt="M Branding.aigc 夜间工作室：Elvin 在桌前制作 AI 分身视频" width="1280" height="720">
+        </picture>
+
+        <!-- Text painted onto the blank wall poster -->
+        <div class="poster-caption" aria-hidden="true">
+          <div class="poster-brand">M BRANDING.AIGC</div>
+          <div class="poster-title">AI 分身<br>视频实战课</div>
+          <div class="poster-price">RM199</div>
+        </div>
+
+        <span class="monitor-fx" aria-hidden="true"></span>
+        <span class="cat-paw" aria-hidden="true"></span>
+
+        <button type="button" class="hs" id="hsClapper" data-open-drawer="demos" aria-label="示范影片">
+          <span class="hs-glow"></span>
+        </button>
+        <span class="hs-label" data-open-drawer="demos">
+          <span class="lbl-zh">示范影片</span>
+          <span class="lbl-en">DEMOS</span>
+        </span>
+
+        <button type="button" class="hs" id="hsCourse" data-open-drawer="course" aria-label="课程介绍 RM199 / S$59">
+          <span class="hs-glow"></span>
+        </button>
+        <span class="hs-label" data-open-drawer="course">
+          <span class="lbl-zh">课程介绍</span>
+          <span class="lbl-en">COURSE</span>
+        </span>
+
+        <button type="button" class="hs" id="hsWindow" data-open-drawer="about" aria-label="关于讲师 Elvin">
+          <span class="hs-glow hs-glow-win"></span>
+        </button>
+        <span class="hs-label" data-open-drawer="about">
+          <span class="lbl-zh">关于讲师</span>
+          <span class="lbl-en">ABOUT</span>
+        </span>
+
+        <button type="button" class="hs" id="hsWorks" data-open-drawer="works" aria-label="作品集 Works">
+          <span class="hs-glow"></span>
+        </button>
+        <span class="hs-label" data-open-drawer="works">
+          <span class="lbl-zh">作品集</span>
+          <span class="lbl-en">WORKS</span>
+        </span>
+
+        <button type="button" class="hs" id="hsChat" data-open-drawer="whatsapp" aria-label="找我聊 WhatsApp">
+          <span class="hs-glow"></span>
+        </button>
+        <span class="hs-label" data-open-drawer="whatsapp">
+          <span class="lbl-zh">找我聊</span>
+          <span class="lbl-en">WHATSAPP</span>
+        </span>
+
+        <button type="button" class="hs" id="hsCat" data-open-drawer="enroll" aria-label="报名 RM199 / S$59">
+          <span class="hs-glow"></span>
+        </button>
+        <span class="hs-label" data-open-drawer="enroll">
+          <span class="lbl-zh">报名</span>
+          <span class="lbl-en">ENROLL · RM199</span>
+        </span>
+
+      </div>
+
+      <div class="room-hint">
+        房间里的每一样东西，都可以点点看。
+        <span>Everything in this studio can be clicked</span>
+      </div>
+    </main>
+
+    <!-- MOBILE-FIRST BOTTOM BAR (AND DESKTOP BOTTOM-RIGHT FLOATING BAR) -->
+    <nav class="bottom-bar" aria-label="快速导航与学员登录">
+      <button type="button" class="bb-item" data-open-drawer="works">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><polygon points="10,9 15,12 10,15" fill="currentColor" stroke="none"/></svg>
+        <span>作品</span>
+        <span class="bb-sub">Works</span>
+      </button>
+      <button type="button" class="bb-item bb-wa" data-open-drawer="whatsapp">
+        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        <span>WhatsApp</span>
+        <span class="bb-sub">Chat</span>
+      </button>
+      <button type="button" class="bb-item bb-login" id="openLoginDockBtn">
+        <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        <span>学员登录</span>
+        <span class="bb-sub">Student Login</span>
+      </button>
+    </nav>
+
+    <div class="room-toast" id="roomToast"></div>
+
+    <!-- BOTTOM-RIGHT POPOVER: LOGIN / REGISTER WITH CODE -->
+    <div class="dock-backdrop" id="dockBackdrop"></div>
+    <aside class="login-dock" id="loginDock" role="dialog" aria-modal="true" aria-label="学员登录入口">
+      <div class="dock-hd">
+        <div>
+          <div class="dock-brand mono">M BRANDING.AIGC · 学员入口</div>
+          <div class="dock-sub">已购课学员凭邮箱与 Registration Code 登录或激活</div>
+        </div>
+        <button type="button" class="dock-close" id="closeLoginDockBtn" aria-label="关闭登录窗口">✕</button>
+      </div>
+      <div class="dock-tabs">
+        <button type="button" class="dock-tab is-active" data-dock-tab="login">学员登录</button>
+        <button type="button" class="dock-tab" data-dock-tab="register">注册激活</button>
+      </div>
+      <div class="dock-bd">
+        <div class="dock-panel is-active" data-dock-panel="login">
+          <form id="dockLoginForm">
+            <div class="fg">
+              <label for="dlEmail">邮箱</label>
+              <input id="dlEmail" type="email" required autocomplete="email" placeholder="付款/注册邮箱">
+            </div>
+            <div class="fg">
+              <label for="dlPwd">密码</label>
+              <input id="dlPwd" type="password" required autocomplete="current-password" placeholder="输入课程密码">
+            </div>
+            <button class="btn-primary" id="dlBtn" type="submit">登录进入课程 →</button>
+            <div class="msg" id="dlMsg"></div>
+          </form>
+          <div class="dock-foot">
+            <a href="./forgot.html">忘记密码？</a>
+            <a href="./login.html">全屏登录页</a>
+          </div>
+        </div>
+
+        <div class="dock-panel" data-dock-panel="register">
+          <form id="dockRegForm">
+            <div class="fg">
+              <label for="drEmail">付款邮箱</label>
+              <input id="drEmail" type="email" required autocomplete="email" placeholder="收到注册码的邮箱">
+            </div>
+            <div class="fg">
+              <label for="drCode">Registration Code</label>
+              <input id="drCode" type="text" required autocomplete="off" placeholder="邮件中的注册码" style="text-transform:uppercase">
+            </div>
+            <div class="fg">
+              <label for="drPwd">设置密码（至少 8 位）</label>
+              <input id="drPwd" type="password" required minlength="8" autocomplete="new-password" placeholder="设置登录密码">
+            </div>
+            <button class="btn-primary" id="drBtn" type="submit">验证注册码并开课 →</button>
+            <div class="msg" id="drMsg"></div>
+          </form>
+          <div class="dock-foot">
+            <span>付款后由 HeyAIGC 邮件发码</span>
+            <a href="./register.html">独立注册页</a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- SLIDE-OVER DRAWER (WORKS / COURSE INTRO / WHATSAPP) -->
+    <div class="drawer-bg" id="drawerBg"></div>
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+      <button type="button" class="drawer-x" id="drawerClose" aria-label="关闭">✕</button>
+      <div class="drawer-k" id="drawerKicker">STUDIO</div>
+      <h3 id="drawerTitle">标题</h3>
+      <div id="drawerBody"></div>
+    </div>
+  </div>
+
+  <!-- 2. LOGGED-IN COURSE VIEW (EXACT CLAUDE COURSE PAGES FROM SUPABASE) -->
+  <div id="courseRoot" style="display:none"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="auth-common.js"></script>
+  <script>
+    (async function () {
+      if (location.hash.includes("type=recovery")) {
+        location.replace("./forgot.html" + location.hash);
+        return;
+      }
+
+      const bootMask = document.getElementById("bootMask");
+      const landingView = document.getElementById("landingView");
+      const courseRoot = document.getElementById("courseRoot");
+      const portalCss = document.getElementById("portalCss");
+      const courseStyle = document.getElementById("courseStyle");
+
+      const { session, enrollment } = await window.checkActiveEnrollment();
+
+      if (session && enrollment) {
+        const allowed = new Set(["index", "m01", "m02", "m03", "m04", "m05", "m06", "m07"]);
+        const rawM = new URLSearchParams(location.search).get("m") || "index";
+        const slug = allowed.has(rawM) ? rawM : "index";
+
+        try {
+          const { data: progRows } = await window.sb
+            .from("student_progress")
+            .select("key, value")
+            .eq("user_id", session.user.id);
+          if (Array.isArray(progRows)) {
+            progRows.forEach(r => {
+              try { localStorage.setItem(r.key, JSON.stringify(r.value)); } catch (e) {}
+            });
+          }
+        } catch (e) {}
+
+        const origSetItem = localStorage.setItem.bind(localStorage);
+        let syncTimer = null;
+        const pendingSync = new Map();
+        localStorage.setItem = function (k, v) {
+          origSetItem(k, v);
+          if (typeof k === "string" && k.startsWith("aic:")) {
+            try { pendingSync.set(k, JSON.parse(v)); } catch (e) { pendingSync.set(k, v); }
+            clearTimeout(syncTimer);
+            syncTimer = setTimeout(async () => {
+              const batch = [...pendingSync.entries()].map(([key, value]) => ({
+                user_id: session.user.id,
+                key,
+                value,
+                updated_at: new Date().toISOString()
+              }));
+              pendingSync.clear();
+              if (batch.length) {
+                await window.sb.from("student_progress").upsert(batch, { onConflict: "user_id,key" });
+              }
+            }, 350);
+          }
+        };
+
+        const { data: mod, error: modErr } = await window.sb
+          .from("course_modules")
+          .select("slug, title, styles_css, body_html, script_js")
+          .eq("slug", slug)
+          .single();
+
+        if (modErr || !mod) {
+          bootMask.textContent = "无法加载课程内容，请刷新或重新登录。";
+          return;
+        }
+
+        portalCss.disabled = true;
+        courseStyle.textContent = mod.styles_css;
+        document.title = (mod.title ? mod.title + "｜" : "") + "AI 分身视频实战课";
+
+        courseRoot.innerHTML = mod.body_html;
+
+        const topbarIn = courseRoot.querySelector(".topbar-in");
+        if (topbarIn) {
+          const userBar = document.createElement("div");
+          userBar.className = "course-user-bar";
+          userBar.innerHTML = '<span class="course-user-email" title=""></span><button type="button" class="course-logout-btn" id="courseLogoutBtn">退出登录</button>';
+          userBar.querySelector(".course-user-email").textContent = session.user.email || "";
+          userBar.querySelector(".course-user-email").title = session.user.email || "";
+          userBar.querySelector("#courseLogoutBtn").addEventListener("click", async () => {
+            await window.sb.auth.signOut();
+            location.replace("./index.html");
+          });
+          topbarIn.appendChild(userBar);
+        }
+
+        const assetImgs = courseRoot.querySelectorAll("img[data-asset]");
+        for (const img of assetImgs) {
+          const path = img.getAttribute("data-asset");
+          const { data: signed } = await window.sb.storage
+            .from("course-assets")
+            .createSignedUrl(path, 3600);
+          if (signed?.signedUrl) img.src = signed.signedUrl;
+        }
+
+        bootMask.style.display = "none";
+        courseRoot.style.display = "block";
+
+        if (mod.script_js) {
+          const s = document.createElement("script");
+          s.textContent = mod.script_js;
+          document.body.appendChild(s);
+        }
+        return;
+      }
+
+      // LOGGED OUT: Show Illustrated Interactive Studio Room
+      bootMask.style.display = "none";
+      landingView.style.display = "flex";
+
+      // Login dock open/close + tab switcher
+      const loginDock = document.getElementById("loginDock");
+      const dockBackdrop = document.getElementById("dockBackdrop");
+      function openLoginDock(tab) {
+        if (tab) {
+          document.querySelectorAll("[data-dock-tab]").forEach(b => b.classList.toggle("is-active", b.dataset.dockTab === tab));
+          document.querySelectorAll("[data-dock-panel]").forEach(p => p.classList.toggle("is-active", p.dataset.dockPanel === tab));
+        }
+        loginDock.classList.add("is-open");
+        dockBackdrop.classList.add("is-open");
+      }
+      function closeLoginDock() {
+        loginDock.classList.remove("is-open");
+        dockBackdrop.classList.remove("is-open");
+      }
+      document.getElementById("openLoginDockBtn").addEventListener("click", () => openLoginDock("login"));
+      document.getElementById("closeLoginDockBtn").addEventListener("click", closeLoginDock);
+      dockBackdrop.addEventListener("click", closeLoginDock);
+
+      document.querySelectorAll("[data-dock-tab]").forEach(btn => {
+        btn.addEventListener("click", () => openLoginDock(btn.dataset.dockTab));
+      });
+
+      // Dock Login form
+      document.getElementById("dockLoginForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("dlBtn");
+        const msg = document.getElementById("dlMsg");
+        msg.className = "msg";
+        btn.disabled = true; btn.textContent = "登录中…";
+        try {
+          const email = document.getElementById("dlEmail").value.trim().toLowerCase();
+          const password = document.getElementById("dlPwd").value;
+          const { error } = await window.sb.auth.signInWithPassword({ email, password });
+          if (error) throw new Error("邮箱或密码不正确，请重试。");
+          const check = await window.checkActiveEnrollment();
+          if (!check.enrollment) {
+            await window.sb.auth.signOut();
+            throw new Error("此账号尚未激活课程，请切换到「注册激活」输入 Registration Code。");
+          }
+          location.reload();
+        } catch (err) {
+          msg.className = "msg is-err";
+          msg.textContent = err.message || "登录失败";
+          btn.disabled = false; btn.textContent = "登录进入课程 →";
+        }
+      });
+
+      // Dock Register form
+      document.getElementById("dockRegForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("drBtn");
+        const msg = document.getElementById("drMsg");
+        msg.className = "msg";
+        btn.disabled = true; btn.textContent = "验证中…";
+        try {
+          const email = document.getElementById("drEmail").value.trim().toLowerCase();
+          const code = document.getElementById("drCode").value.trim().toUpperCase();
+          const password = document.getElementById("drPwd").value;
+          await window.registerWithCode({ email, code, password });
+          msg.className = "msg is-ok";
+          msg.textContent = "注册成功，正在进入课程…";
+          location.reload();
+        } catch (err) {
+          msg.className = "msg is-err";
+          msg.textContent = err.message || "注册失败";
+          btn.disabled = false; btn.textContent = "验证注册码并开课 →";
+        }
+      });
+
+      // Slide-over Drawer (Works / Course Intro / WhatsApp)
+      const drawerBg = document.getElementById("drawerBg");
+      const drawer = document.getElementById("drawer");
+      const drawerKicker = document.getElementById("drawerKicker");
+      const drawerTitle = document.getElementById("drawerTitle");
+      const drawerBody = document.getElementById("drawerBody");
+
+      const DRAWERS = {
+        works: {
+          k: "WORKS · 3 支实战范例",
+          t: "学完带走 3 支 15 秒成品",
+          html: `
+            <p style="font-size:13.5px;color:var(--ink-2);margin-bottom:14px">报名附送 1400 HeyAIGC 积分（720P 每支 420 积分），课程手把手教你在下面 3 种真实商业场景直接套用模板出片：</p>
+            <div class="dw-card">
+              <div class="dw-tag">DEMO 01 · 产品宣传</div>
+              <h4>达人饮品种草（15 秒三镜头）</h4>
+              <p>用 Character Sheet + 1–3 张产品图，在 HeyAIGC「产品展示」做出钩子→喝一口→行动号召。</p>
+              <div class="drawer-script">镜头1（0-5s）：微笑举起产品："家人们这个你们必须试试！"
+镜头2（5-10s）：硬切近景喝一口："嗯～"
+镜头3（10-15s）：举到脸旁竖大拇指："真的超顺滑，相信我直接冲！"</div>
+            </div>
+            <div class="dw-card">
+              <div class="dw-tag">DEMO 02 · 服务宣传</div>
+              <h4>签证咨询口播（15 秒顾问出镜）</h4>
+              <p>用 Character Sheet + 机场场景图，在「IP/服务」模板讲解痛点与方案。</p>
+              <div class="drawer-script">镜头1（0-5s）："来马来西亚，签证不要随便办。"
+镜头2（5-10s）：展示护照："延期、工作、第二家园，每一种情况都不一样。"
+镜头3（10-15s）："先咨询、先评估，再安排更安心。"</div>
+            </div>
+            <div class="dw-card">
+              <div class="dw-tag">DEMO 03 · 个人 IP</div>
+              <h4>街头观点自拍（15 秒一镜到底）</h4>
+              <p>前置自拍视角，适合老板、顾问与创作者持续输出日常观点。</p>
+              <div class="drawer-script">一镜到底："有句话，我一直很喜欢——一切都会过去。这句话，我信了很多年。后来才发现——会过去的，也包括当初相信它的我。"</div>
+            </div>
+            <div class="ph-box">[占位] EDU-008 三支 NORA 示范视频成品定稿后将嵌入此处直接播放。</div>
+          `
+        },
+        course: {
+          k: "COURSE INTRO · M BRANDING.AIGC",
+          t: "AI 分身视频实战课",
+          html: `
+            <div class="offer-box">
+              <div class="offer-price">RM199 <span style="opacity:.55">/</span> S$59</div>
+              <div class="offer-sub">明码实价 · 含 HeyAIGC 账号 + 1400 积分 · 学完带走 3 支成品</div>
+            </div>
+            <div class="sp-mini">
+              <div class="sp-mini-item"><b>01 真人出镜 / 全程不出镜都能做</b>可选真人 AI Twin，或从零设计虚拟 AI Character。</div>
+              <div class="sp-mini-item"><b>02 点选生成中文 Prompt，不用自己写</b>课程页内置 AI Character Builder，勾选项即生成并一键复制。</div>
+              <div class="sp-mini-item"><b>03 直接套用产品 / 服务 / 个人 IP 脚本</b>提供冻结验证过的三段式 15 秒竖屏脚本模板。</div>
+              <div class="sp-mini-item"><b>04 含 CapCut 剪辑、字幕与 BGM 导出</b>6 个核心短课 + M07 剪辑实操，学完立即能发片。</div>
+            </div>
+            <div style="font-size:12px;font-weight:700;color:var(--ink);margin:14px 0 6px">课程目录（M01–M07）</div>
+            <div class="syl-mini">
+              <div class="syl-row"><span>M01</span>认识 AI 分身（Twin vs Character）</div>
+              <div class="syl-row"><span>M02</span>设计你的 AI 分身（Prompt 生成器）</div>
+              <div class="syl-row"><span>M03</span>用 ChatGPT 做出第 1 张 Master Photo</div>
+              <div class="syl-row"><span>M04</span>制作 Character Sheet（脸/半身/全身）</div>
+              <div class="syl-row"><span>M05</span>生成真人感场景照片</div>
+              <div class="syl-row"><span>M06</span>用 HeyAIGC 做出第 1 支 15 秒视频</div>
+              <div class="syl-row"><span>M07</span>CapCut 剪辑、字幕校对与 BGM 导出</div>
+            </div>
+            <p style="font-size:12.5px;color:var(--ink-2);margin-bottom:12px"><b>领学讲师：</b>Elvin（真人 AI Twin）× NORA（虚拟 AI Character）</p>
+            <button type="button" class="btn-primary" id="drawerBuyBtn">立即报名 · RM199 / S$59（待接入付款链接）</button>
+            <div class="ph-box">[占位] 正式付款按钮待接入 HeyAIGC Stripe Checkout；若你已收到 Registration Code，可点下方直接激活进入课程。</div>
+            <button type="button" style="width:100%;margin-top:10px;padding:10px;border-radius:10px;border:1px solid var(--accent);color:var(--accent);font-weight:700;font-size:13.5px" id="drawerGoRegBtn">已有 Registration Code？去注册激活 →</button>
+          `
+        },
+        whatsapp: {
+          k: "CHAT · WHATSAPP 咨询",
+          t: "报名或课程疑问，找我聊",
+          html: `
+            <p style="font-size:14px;color:var(--ink-2);margin-bottom:14px">想确认这门课适不适合你的行业、如何用 AI 分身拍产品 / 服务 / 个人 IP，或刚付款未收到 Registration Code，都可以直接通过 WhatsApp 联系我们。</p>
+            <div class="dw-card">
+              <div class="dw-tag">M BRANDING.AIGC · 课程顾问</div>
+              <h4>课程价格：RM199 / S$59</h4>
+              <p>付款后由 HeyAIGC 邮件发送账号（含 1400 积分）与课程 Registration Code，拿到码即可点击右下角「学员登录 → 注册激活」马上开课。</p>
+            </div>
+            <div class="ph-box">[占位] 正式 WhatsApp 一键对话链接（wa.me/...）待确认号码后接入。</div>
+          `
+        },
+        enroll: {
+          k: "ENROLL · RM199 / S$59",
+          t: "报名学完带走 3 支成品",
+          html: `
+            <div class="offer-box">
+              <div class="offer-price">RM199 <span style="opacity:.55">/</span> S$59</div>
+              <div class="offer-sub">明码实价 · 含 HeyAIGC 账号 + 1400 积分 · 学完带走 3 支 15 秒 720P 成品</div>
+            </div>
+            <p style="font-size:14px;color:var(--ink-2);margin:4px 0 12px">6 个短课 + CapCut 剪辑实操，从人物设计、ChatGPT 定妆照到 HeyAIGC 竖屏成片。零基础按步骤自己做出来，不用自己写复杂 Prompt。</p>
+            <button type="button" class="btn-primary" id="drawerBuyBtn">立即报名 · RM199 / S$59（待接入付款链接）</button>
+            <div class="ph-box">[占位] 正式付款按钮待接入 HeyAIGC Stripe Checkout；若你已收到 Registration Code，可直接注册激活进入课程。</div>
+            <button type="button" style="width:100%;margin-top:10px;padding:10px;border-radius:10px;border:1px solid var(--accent);color:var(--accent);font-weight:700;font-size:13.5px" id="drawerGoRegBtn">已有 Registration Code？去注册激活 →</button>
+          `
+        },
+        demos: {
+          k: "DEMOS · 3 支示范影片",
+          t: "先看 3 支 15 秒成片",
+          html: `
+            <p style="font-size:13.5px;color:var(--ink-2);margin-bottom:14px">课程示范覆盖产品、服务与个人 IP 三种真实场景。成片定稿后，你会在这里直接预览：</p>
+            <div class="dw-card"><div class="dw-tag">DEMO 01 · 产品宣传</div><h4>达人饮品种草（15 秒）</h4><p>钩子推荐 → 喝一口展示 → 行动号召。</p><div class="ph-box" style="margin-top:8px">[占位] 示范视频播放器待接入 EDU-008 成品。</div></div>
+            <div class="dw-card"><div class="dw-tag">DEMO 02 · 服务宣传</div><h4>签证咨询口播（15 秒）</h4><p>痛点钩子 → 展示方案 → 引导咨询。</p><div class="ph-box" style="margin-top:8px">[占位] 示范视频播放器待接入 EDU-008 成品。</div></div>
+            <div class="dw-card"><div class="dw-tag">DEMO 03 · 个人 IP</div><h4>街头观点自拍（15 秒）</h4><p>一镜到底：金句钩子 → 个人故事 → 反转感悟。</p><div class="ph-box" style="margin-top:8px">[占位] 示范视频播放器待接入 EDU-008 成品。</div></div>
+          `
+        },
+        about: {
+          k: "ABOUT · 领学讲师",
+          t: "Elvin · M Branding.aigc",
+          html: `
+            <p style="font-size:14px;color:var(--ink-2);margin-bottom:14px">Elvin 是本课领学讲师，也是课程里「真人 AI Twin」路线的示范。他会带你走完从人物设计、ChatGPT 定妆照、Character Sheet，到用 HeyAIGC 做出第 1 支 15 秒会说话的竖屏视频，并补上 CapCut 剪辑、字幕与 BGM。</p>
+            <div class="dw-card">
+              <div class="dw-tag">双人示范领学</div>
+              <h4>Elvin（真人 AI Twin）× NORA（虚拟 AI Character）</h4>
+              <p>一条路线用自己的正脸照做出分身，一条路线从零创造虚拟人物、全程不必出镜。产品、服务、个人 IP 三种脚本都会示范。</p>
+            </div>
+            <p style="font-size:12.5px;color:var(--ink-2)">想先问适不适合你的行业，可以点房间里的手机，走 WhatsApp 咨询。</p>
+          `
+        }
+      };
+
+      function openDrawer(key) {
+        const d = DRAWERS[key];
+        if (!d) return;
+        closeLoginDock();
+        drawerKicker.textContent = d.k;
+        drawerTitle.textContent = d.t;
+        drawerBody.innerHTML = d.html;
+        drawerBg.classList.add("is-open");
+        drawer.classList.add("is-open");
+
+        const regBtn = document.getElementById("drawerGoRegBtn");
+        if (regBtn) {
+          regBtn.addEventListener("click", () => {
+            closeDrawer();
+            openLoginDock("register");
+          });
+        }
+        const buyBtn = document.getElementById("drawerBuyBtn");
+        if (buyBtn) {
+          buyBtn.addEventListener("click", () => {
+            showToast("[占位] 正式 Stripe 付款链接待接入 HeyAIGC Funnel");
+          });
+        }
+      }
+      function closeDrawer() {
+        drawerBg.classList.remove("is-open");
+        drawer.classList.remove("is-open");
+      }
+      document.getElementById("drawerClose").addEventListener("click", closeDrawer);
+      drawerBg.addEventListener("click", closeDrawer);
+
+      document.querySelectorAll("[data-open-drawer]").forEach(el => {
+        el.addEventListener("click", () => openDrawer(el.dataset.openDrawer));
+        el.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openDrawer(el.dataset.openDrawer); }
+        });
+      });
+
+      document.querySelectorAll(".room-shot > .hs, .room-shot > .hs-label").forEach(el => {
+        const key = el.dataset.openDrawer;
+        const hs = document.querySelector('.room-shot > .hs[data-open-drawer="' + key + '"]');
+        if (!hs) return;
+        el.addEventListener("mouseenter", () => hs.classList.add("is-on"));
+        el.addEventListener("mouseleave", () => hs.classList.remove("is-on"));
+      });
+
+      // Playful studio prop toast
+      const roomToast = document.getElementById("roomToast");
+      let toastTimer = null;
+      function showToast(text) {
+        roomToast.textContent = text;
+        roomToast.classList.add("is-show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => roomToast.classList.remove("is-show"), 2800);
+      }
+      document.querySelectorAll("[data-prop]").forEach(el => {
+        el.addEventListener("click", () => showToast(el.dataset.prop));
+      });
+    })();
+  </script>
+</body>
+</html>

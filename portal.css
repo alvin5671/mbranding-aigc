@@ -1,0 +1,749 @@
+:root{
+  --room-bg:#1d1a14;
+  --wall-top:#252119;
+  --wall-mid:#2e291f;
+  --desk:#553f29;
+  --desk-edge:#6c5136;
+  --paper:#f4f3ee;
+  --surface:#ffffff;
+  --champagne:#efe3c2;
+  --champagne-dim:rgba(239,227,194,.72);
+  --muted:#a69d8b;
+  --clay:#c0794d;
+  --sage:#8b9a84;
+  --accent:#1b5e4a;
+  --accent-h:#154b3b;
+  --ink:#1b1f1c;
+  --ink-2:#3d453f;
+  --line-dark:rgba(239,227,194,.16);
+  --line-light:#dde1d9;
+  --r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--room-bg);
+  color:var(--champagne);
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+.serif{font-family:"Noto Serif SC",Georgia,serif}
+
+/* ===== ROOM SHELL (FULL VIEWPORT, MOBILE-FIRST) ===== */
+.studio-stage{
+  position:relative;
+  min-height:100dvh;
+  height:100dvh;
+  display:flex;
+  flex-direction:column;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 42%, rgba(239,227,194,.12), transparent 70%),
+    linear-gradient(180deg, #1d1a14 0%, #262119 55%, #2c271e 78%, #3a2d1d 100%);
+  overflow:hidden;
+}
+
+/* Header */
+.studio-head{
+  position:relative;z-index:20;
+  flex:none;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px 6px;
+}
+.studio-logo{
+  display:flex;align-items:center;gap:9px;
+  font-family:"Archivo","Noto Sans SC",sans-serif;
+  font-weight:800;font-size:13px;letter-spacing:.12em;
+  color:var(--champagne);
+}
+.studio-dot{width:8px;height:8px;border-radius:50%;background:var(--clay);box-shadow:0 0 10px rgba(192,121,77,.6)}
+.studio-nav{display:flex;align-items:center;gap:14px;font-size:12.5px;color:var(--champagne-dim)}
+.studio-nav button:hover,.studio-nav a:hover{color:var(--champagne)}
+.nav-wa{
+  border:1px solid rgba(239,227,194,.38);
+  padding:5px 12px;border-radius:999px;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;
+  color:var(--champagne);transition:background .18s,border-color .18s;
+}
+.nav-wa:hover{background:rgba(239,227,194,.1);border-color:var(--champagne)}
+.hide-xs{display:none}
+
+/* Hero Title */
+.room-hero{
+  position:relative;z-index:10;
+  flex:none;
+  text-align:center;
+  padding:0 14px 0;
+}
+.room-kicker{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:2px;
+}
+.room-hero h1{
+  font-family:"Noto Serif SC",Georgia,serif;
+  font-weight:700;
+  font-size:clamp(22px,6.2vw,40px);
+  line-height:1.22;letter-spacing:.02em;
+  color:var(--champagne);
+  text-shadow:0 4px 24px rgba(0,0,0,.45);
+}
+.room-sub{
+  margin-top:2px;
+  font-size:11.5px;color:var(--muted);font-style:italic;
+}
+
+/* Interactive Scene Canvas — fill width + most of the space between title and bottom bar */
+.room-scene-wrap{
+  position:relative;z-index:10;
+  flex:1 1 auto;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+  width:100%;
+  margin:0 auto;
+  padding:0 0 6px;
+  margin-bottom:64px; /* room for fixed mobile bottom bar */
+}
+.room-svg-box{
+  position:relative;
+  flex:1 1 auto;
+  min-height:0;
+  width:100%;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  overflow:hidden;
+}
+.room-svg{
+  display:block;
+  width:auto;
+  height:100%;
+  max-width:none;
+  flex:none;
+  overflow:visible;
+  user-select:none;
+}
+
+/* SVG Hotspot Hover & Pulse */
+.hs{cursor:pointer;outline:none}
+.hs .hs-glow{opacity:.18;transition:opacity .2s ease}
+.hs:hover .hs-glow,.hs:focus-visible .hs-glow{opacity:.48}
+.hs .hs-lift{transition:transform .22s cubic-bezier(.22,.68,0,1)}
+.hs:hover .hs-lift,.hs:focus-visible .hs-lift{transform:translateY(-4px)}
+.hs-label{
+  cursor:pointer;
+  transition:opacity .2s;
+}
+.hs-label:hover text{fill:#ffffff}
+.hs-label .lbl-zh{
+  font-family:"Noto Sans SC",sans-serif;
+  font-weight:700;
+  font-size:13px; /* CSS px: readable on 390px screens */
+  fill:#efe3c2;
+}
+.hs-label .lbl-en{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:9px;
+  letter-spacing:.08em;
+  fill:#a69d8b;
+}
+@keyframes ringPulse{
+  0%,100%{opacity:.55;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.18)}
+}
+.pulse-dot{transform-box:fill-box;transform-origin:center;animation:ringPulse 2.4s ease-in-out infinite}
+
+/* Room Bottom Hint — sits tight on the short desk, just above the bar */
+.room-hint{
+  position:relative;z-index:5;
+  flex:none;
+  margin:0;
+  padding:4px 16px 6px;
+  text-align:center;
+  font-size:12.5px;
+  color:var(--champagne-dim);
+}
+.room-hint span{
+  display:block;
+  font-size:10.5px;font-style:italic;color:var(--muted);margin-top:1px;
+}
+
+/* Toast feedback for minor studio props */
+.room-toast{
+  position:fixed;left:50%;bottom:84px;transform:translateX(-50%) translateY(12px);
+  z-index:60;
+  background:rgba(28,24,18,.94);
+  border:1px solid rgba(239,227,194,.3);
+  color:var(--champagne);
+  padding:8px 16px;border-radius:999px;
+  font-size:12.5px;white-space:nowrap;
+  opacity:0;pointer-events:none;
+  transition:opacity .2s,transform .2s;
+  box-shadow:0 12px 30px rgba(0,0,0,.45);
+}
+.room-toast.is-show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ===== BOTTOM BAR (MOBILE-FIRST) + DESKTOP BOTTOM-RIGHT LOGIN ENTRY ===== */
+.bottom-bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;
+  display:grid;grid-template-columns:1fr 1fr 1.15fr;
+  background:rgba(24,20,15,.95);
+  backdrop-filter:blur(12px);
+  border-top:1px solid var(--line-dark);
+  padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));
+}
+.bb-item{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  padding:6px 4px;
+  color:var(--champagne);
+  font-size:12px;font-weight:500;
+  border-right:1px solid rgba(239,227,194,.1);
+}
+.bb-item:last-child{border-right:0}
+.bb-item svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bb-sub{font-size:10px;color:var(--muted);font-style:italic;line-height:1}
+.bb-wa{color:#9fd3b8}
+.bb-login{
+  background:rgba(27,94,74,.28);
+  border-radius:10px;
+  margin:2px 6px;
+  color:#fff;
+  border:1px solid rgba(139,154,132,.42);
+}
+.bb-login .bb-sub{color:var(--champagne)}
+
+/* ===== BOTTOM-RIGHT LOGIN / REGISTER POPOVER PANEL ===== */
+.dock-backdrop{
+  position:fixed;inset:0;z-index:70;
+  background:rgba(12,10,7,.52);
+  opacity:0;pointer-events:none;transition:opacity .22s;
+}
+.dock-backdrop.is-open{opacity:1;pointer-events:auto}
+
+.login-dock{
+  position:fixed;
+  right:14px;bottom:74px;
+  z-index:75;
+  width:min(380px, calc(100vw - 28px));
+  background:var(--paper);color:var(--ink);
+  border-radius:18px;
+  border:1px solid rgba(239,227,194,.45);
+  box-shadow:0 28px 70px rgba(0,0,0,.62);
+  overflow:hidden;
+  transform:translateY(18px) scale(.97);
+  opacity:0;pointer-events:none;
+  transition:transform .24s cubic-bezier(.22,.68,0,1), opacity .2s;
+}
+.login-dock.is-open{transform:translateY(0) scale(1);opacity:1;pointer-events:auto}
+
+.dock-hd{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+  padding:16px 18px 12px;
+  background:#eceae2;
+  border-bottom:1px solid var(--line-light);
+}
+.dock-brand{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.dock-sub{font-size:12px;color:var(--ink-2);margin-top:3px}
+.dock-close{
+  width:28px;height:28px;border-radius:999px;
+  border:1px solid var(--line-light);background:#fff;
+  color:var(--ink-2);display:grid;place-items:center;font-size:13px;flex:none;
+}
+.dock-tabs{display:grid;grid-template-columns:1fr 1fr;padding:12px 18px 0;gap:6px}
+.dock-tab{
+  padding:9px 8px;border-radius:9px;
+  font-size:13px;font-weight:600;
+  background:#e6e3d8;color:var(--ink-2);text-align:center;
+}
+.dock-tab.is-active{background:var(--accent);color:#fff}
+.dock-bd{padding:14px 18px 18px}
+.dock-panel{display:none}
+.dock-panel.is-active{display:block}
+.fg{margin-bottom:11px}
+.fg label{display:block;font-size:11.5px;font-weight:600;color:var(--ink-2);margin-bottom:4px}
+.fg input{
+  width:100%;padding:10px 12px;border-radius:10px;
+  border:1px solid #cbd0c6;background:#fff;color:var(--ink);
+  font-size:14px;font-family:inherit;outline:none;
+}
+.fg input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(27,94,74,.14)}
+.btn-primary{
+  width:100%;padding:11px 16px;border-radius:10px;
+  background:var(--accent);color:#fff;font-size:14px;font-weight:700;
+  margin-top:4px;
+}
+.btn-primary:hover{background:var(--accent-h)}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed}
+.msg{margin-top:10px;padding:9px 11px;border-radius:9px;font-size:12.5px;line-height:1.5;display:none}
+.msg.is-err{display:block;background:#fdf1ef;border:1px solid #ebbfb7;color:#9b2c1a}
+.msg.is-ok{display:block;background:#edf7f2;border:1px solid #b8dfcb;color:#14523b}
+.dock-foot{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:12px;padding-top:10px;border-top:1px solid var(--line-light);
+  font-size:12px;color:#5e665e;
+}
+.dock-foot a{color:var(--accent);font-weight:500}
+
+/* ===== SLIDE-OVER DRAWER (WORKS / COURSE INTRO / WHATSAPP) ===== */
+.drawer-bg{
+  position:fixed;inset:0;z-index:80;
+  background:rgba(12,10,7,.64);backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity .22s;
+}
+.drawer-bg.is-open{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;z-index:90;
+  width:min(520px,100vw);
+  background:var(--paper);color:var(--ink);
+  padding:24px 22px 34px;overflow-y:auto;
+  transform:translateX(102%);transition:transform .28s cubic-bezier(.22,.68,0,1);
+  box-shadow:-20px 0 60px rgba(0,0,0,.45);
+}
+.drawer.is-open{transform:translateX(0)}
+.drawer-x{
+  position:sticky;top:0;float:right;width:34px;height:34px;border-radius:999px;
+  background:#e6e4dc;color:var(--ink);font-size:15px;display:grid;place-items:center;
+}
+.drawer-k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;color:var(--clay);text-transform:uppercase}
+.drawer h3{font-family:"Noto Serif SC",serif;font-size:22px;margin:6px 0 12px;line-height:1.3}
+
+.dw-card{
+  background:#fff;border:1px solid var(--line-light);border-radius:14px;
+  padding:15px 16px;margin-bottom:12px;
+}
+.dw-tag{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;color:var(--clay);margin-bottom:4px}
+.dw-card h4{font-size:15.5px;margin-bottom:4px;color:var(--ink)}
+.dw-card p{font-size:13px;color:var(--ink-2)}
+.drawer-script{
+  background:#f8f7f2;border:1px solid var(--line-light);border-radius:10px;
+  padding:12px 13px;margin:10px 0 4px;
+  font-size:12.5px;white-space:pre-line;color:var(--ink);line-height:1.7;
+}
+.offer-box{
+  background:#232018;color:var(--champagne);
+  border-radius:14px;padding:16px;margin:10px 0 14px;
+}
+.offer-price{font-family:"Archivo",sans-serif;font-weight:800;font-size:24px;color:var(--champagne)}
+.offer-sub{font-size:12.5px;color:var(--champagne-dim);margin-top:3px}
+.sp-mini{display:grid;gap:8px;margin:12px 0}
+.sp-mini-item{background:#fff;border:1px solid var(--line-light);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink-2)}
+.sp-mini-item b{color:var(--ink);display:block;margin-bottom:2px}
+.syl-mini{display:grid;gap:6px;margin:10px 0 14px}
+.syl-row{display:flex;gap:10px;align-items:baseline;font-size:13px;padding:7px 10px;background:#fff;border:1px solid var(--line-light);border-radius:9px}
+.syl-row span{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--accent);font-weight:600;flex:none}
+.ph-box{
+  margin-top:10px;padding:9px 12px;border-radius:9px;
+  border:1px dashed #c78b64;background:#fdf6f1;
+  font-size:12px;color:#8c4e28;
+}
+
+/* ===== STANDALONE AUTH PAGES (login.html, register.html, forgot.html) ===== */
+.auth-page{
+  min-height:100vh;display:grid;place-items:center;padding:28px 16px;
+  background:radial-gradient(ellipse 80% 50% at 50% 0%, rgba(239,227,194,.1), transparent 70%), var(--room-bg);
+}
+.auth-box{
+  width:min(440px,100%);background:var(--paper);color:var(--ink);
+  border-radius:18px;padding:28px 24px;border:1px solid rgba(239,227,194,.3);
+  box-shadow:0 28px 70px rgba(0,0,0,.5);
+}
+.auth-box .back{display:inline-block;font-size:12.5px;color:var(--accent);margin-bottom:14px;font-weight:600}
+.auth-box h1{font-family:"Noto Serif SC",serif;font-size:24px;margin-bottom:6px}
+.auth-box .sub{font-size:13.5px;color:var(--ink-2);margin-bottom:18px}
+
+/* ===== DESKTOP (>= 900px) ===== */
+@media (min-width:900px){
+  .hide-xs{display:inline}
+  .studio-stage{
+    height:auto;
+    min-height:100dvh;
+    background:
+      radial-gradient(ellipse 90% 55% at 50% 54%, rgba(239,227,194,.11), transparent 68%),
+      linear-gradient(180deg, #1d1a14 0%, #262119 36%, #2f2a20 62%, #4e3924 62.2%, #3d2c1b 100%);
+  }
+  .studio-head{padding:18px 36px 10px}
+  .room-hero{padding:4px 24px 2px}
+  .room-kicker{font-size:10px;letter-spacing:.2em;margin-bottom:4px}
+  .room-hero h1{font-size:clamp(32px,3.4vw,42px)}
+  .room-sub{font-size:13px;margin-top:4px}
+  .room-scene-wrap{
+    flex:1 1 auto;
+    max-width:none;
+    width:100%;
+    margin:0 auto;
+    padding:0 0 20px;
+    margin-bottom:0;
+    justify-content:center;
+  }
+  .room-svg-box{
+    flex:0 1 auto;
+    width:100%;
+    max-width:none;
+    height:auto;
+    overflow:visible;
+  }
+  .room-svg{
+    width:100%;
+    height:auto;
+    max-height:none;
+  }
+  .room-hint{padding:6px 24px 0;font-size:13px}
+  .room-hint span{font-size:12px}
+  .hs-label .lbl-zh{font-size:15px}
+  .hs-label .lbl-en{font-size:10.5px}
+
+  /* On desktop, turn bottom bar into a sleek bottom-right docked launcher pill (leaving the warm desk clear like reference!) */
+  .bottom-bar{
+    left:auto;right:24px;bottom:22px;
+    display:flex;align-items:center;gap:6px;
+    border-top:0;
+    border:1px solid rgba(239,227,194,.24);
+    border-radius:999px;
+    padding:6px 8px;
+    box-shadow:0 16px 40px rgba(0,0,0,.5);
+  }
+  .bb-item{
+    flex-direction:row;gap:7px;
+    padding:8px 13px;
+    border-right:0;
+    border-radius:999px;
+  }
+  .bb-item:hover{background:rgba(239,227,194,.09)}
+  .bb-sub{display:none}
+  .bb-login{
+    margin:0;
+    padding:9px 18px;
+    border-radius:999px;
+    background:var(--accent);
+    border-color:rgba(239,227,194,.35);
+    font-weight:700;
+  }
+  .bb-login:hover{background:var(--accent-h)}
+  .login-dock{right:24px;bottom:84px}
+}
+
+
+/* ===== PHOTO HERO (desktop 16:9 room_elvin_solo.jpg / mobile 9:16 room_elvin_solo_mobile.jpg) ===== */
+.studio-stage{
+  position:relative;
+  min-height:100dvh;
+  height:100dvh;
+  display:flex;
+  flex-direction:column;
+  background:#2e2017;
+  overflow:hidden;
+}
+.studio-head{
+  position:absolute;
+  top:0;left:0;right:0;
+  z-index:30;
+  flex:none;
+  padding:12px 16px;
+  background:linear-gradient(180deg, rgba(20,12,8,.55), transparent);
+}
+
+/* Mobile / portrait: 9:16 painting as a full-screen cover */
+.room-hero-art{
+  position:absolute;
+  inset:0;
+  margin-bottom:0;
+  padding-top:0;
+  display:block;
+  overflow:hidden;
+}
+.room-shot{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:auto;
+  height:max(100%, calc(100vw * 16 / 9));
+  min-width:100%;
+  min-height:100%;
+  aspect-ratio:9/16;
+  margin:0;
+  container-type:inline-size;
+}
+.room-shot picture{
+  display:block;
+  width:100%;
+  height:100%;
+}
+.room-photo{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:fill;
+  user-select:none;
+  pointer-events:none;
+  -webkit-user-drag:none;
+}
+
+/* Title sits in the dark top wall (~0–38% of the 9:16 art) */
+.room-hero{
+  position:absolute;
+  left:0;right:0;
+  top:max(52px, 7.2%);
+  z-index:8;
+  text-align:center;
+  padding:0 16px;
+  pointer-events:none;
+  text-shadow:0 2px 18px rgba(0,0,0,.65);
+}
+.room-kicker{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:clamp(8px,2.5vw,11px);
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:2px;
+}
+.room-hero h1{
+  font-family:"Noto Serif SC",Georgia,serif;
+  font-weight:700;
+  font-size:clamp(20px,6.4vw,28px);
+  line-height:1.2;letter-spacing:.02em;
+  color:var(--champagne);
+}
+.room-sub{
+  margin-top:3px;
+  font-size:clamp(11px,3.3vw,14px);
+  color:var(--champagne-dim);font-style:italic;
+}
+
+/* Poster caption: omitted on mobile (frame is tight once cover-cropped); shown on desktop */
+.poster-caption{
+  display:none;
+  position:absolute;
+  left:45.55%;top:25.15%;
+  width:8.15%;height:9.6%;
+  flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+  pointer-events:none;
+  color:#3a2a20;
+  line-height:1.15;
+  overflow:hidden;
+}
+.poster-brand{
+  font-family:"Archivo","Noto Sans SC",sans-serif;
+  font-weight:800;
+  font-size:0.72cqw;
+  letter-spacing:.05em;
+  line-height:1.1;
+  white-space:nowrap;
+}
+.poster-title{
+  font-family:"Noto Serif SC",serif;
+  font-weight:700;
+  font-size:0.98cqw;
+  margin-top:0.28cqw;
+  line-height:1.15;
+}
+.poster-price{
+  font-family:"IBM Plex Mono",monospace;
+  font-weight:700;
+  font-size:0.8cqw;
+  color:#7a3e22;
+  margin-top:0.2cqw;
+}
+
+/* Clickable hotspots — boxes are % of the current painting */
+.room-shot > .hs{
+  position:absolute;
+  padding:0;border:0;background:transparent;
+  cursor:pointer;
+  z-index:5;
+  border-radius:6px;
+}
+.room-shot > .hs .hs-glow{
+  position:absolute;inset:-4px;
+  border-radius:10px;
+  border:2px solid rgba(239,227,194,0);
+  box-shadow:0 0 0 0 rgba(239,227,194,0);
+  background:rgba(239,227,194,0);
+  opacity:0;
+  transition:opacity .2s, box-shadow .2s, border-color .2s, background .2s;
+  pointer-events:none;
+}
+.room-shot > .hs:hover .hs-glow,
+.room-shot > .hs:focus-visible .hs-glow,
+.room-shot > .hs.is-on .hs-glow{
+  opacity:1;
+  border-color:rgba(239,227,194,.85);
+  background:rgba(239,227,194,.10);
+  box-shadow:0 0 22px rgba(239,227,194,.45), 0 0 0 1px rgba(239,227,194,.35);
+}
+.room-shot > .hs:focus-visible{outline:none}
+.hs-glow-win{border-radius:4px}
+
+.room-shot > .hs-label{
+  position:absolute;
+  z-index:7;
+  display:flex;flex-direction:column;
+  cursor:pointer;
+  white-space:nowrap;
+  filter:drop-shadow(0 2px 8px rgba(0,0,0,.75));
+  transition:transform .18s, opacity .18s;
+}
+.room-shot > .hs-label .lbl-zh{
+  font-family:"Noto Sans SC",sans-serif;
+  font-weight:700;
+  font-size:13px;
+  color:#efe3c2;
+  line-height:1.15;
+}
+.room-shot > .hs-label .lbl-en{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:9px;
+  letter-spacing:.08em;
+  color:#cbbfa0;
+  margin-top:1px;
+}
+.room-shot > .hs-label:hover .lbl-zh{color:#fff}
+
+/* Mobile 9:16 hotspot boxes (% of room_elvin_solo_mobile.jpg) */
+#hsClapper{left:13.8%;top:39.0%;width:11.2%;height:7.0%}
+#hsCourse{left:39.0%;top:38.8%;width:20.8%;height:11.0%}
+#hsWindow{left:69.8%;top:38.0%;width:29.0%;height:24.2%}
+#hsWorks{left:1.2%;top:54.8%;width:26.8%;height:19.2%}
+#hsChat{left:19.6%;top:69.6%;width:10.5%;height:11.2%;z-index:6}
+#hsCat{left:81.0%;top:70.8%;width:11.8%;height:12.0%}
+
+/* Staggered labels — clapper above the shelf, poster above the frame */
+.room-shot > .hs-label[data-open-drawer="demos"]{left:13.2%;top:31.0%}
+.room-shot > .hs-label[data-open-drawer="course"]{left:42.0%;top:35.2%}
+.room-shot > .hs-label[data-open-drawer="about"]{left:72.8%;top:39.4%}
+.room-shot > .hs-label[data-open-drawer="works"]{left:12.0%;top:55.2%}
+.room-shot > .hs-label[data-open-drawer="whatsapp"]{left:30.0%;top:67.4%}
+.room-shot > .hs-label[data-open-drawer="enroll"]{left:auto;right:10.0%;top:66.8%;align-items:flex-end;text-align:right}
+
+/* Subtle monitor screen flicker — mobile screen inset */
+.monitor-fx{
+  position:absolute;
+  left:3.8%;top:56.4%;
+  width:21.5%;height:13.5%;
+  pointer-events:none;
+  z-index:3;
+  border-radius:1.2% / 2%;
+  background:linear-gradient(180deg, rgba(180,210,255,.18), rgba(255,255,255,0) 42%, rgba(120,190,255,.10));
+  mix-blend-mode:screen;
+  animation:screenFlicker 5.6s ease-in-out infinite;
+}
+@keyframes screenFlicker{
+  0%,100%{opacity:.32}
+  3%{opacity:.08}
+  5%{opacity:.38}
+  48%{opacity:.22}
+  51%{opacity:.05}
+  54%{opacity:.34}
+  82%{opacity:.18}
+}
+
+/* Lucky-cat raised paw bob — mobile */
+.cat-paw{
+  position:absolute;
+  left:88.5%;top:72.0%;
+  width:4.2%;height:5.5%;
+  pointer-events:none;
+  z-index:3;
+  transform-origin:20% 90%;
+  animation:pawWave 2.6s ease-in-out infinite;
+  background:radial-gradient(ellipse at 50% 35%, rgba(255,236,214,.4), rgba(255,236,214,0) 70%);
+  border-radius:50%;
+  filter:blur(.4px);
+}
+@keyframes pawWave{
+  0%,100%{transform:rotate(0deg) translateY(0)}
+  35%{transform:rotate(-16deg) translateY(-6%)}
+  55%{transform:rotate(7deg) translateY(2%)}
+  72%{transform:rotate(-9deg) translateY(-3%)}
+}
+
+/* Hint sits on the dark floor, above the bottom bar, not over desk objects */
+.room-hint{
+  position:absolute;
+  left:0;right:0;
+  bottom:calc(84px + env(safe-area-inset-bottom,0px));
+  z-index:8;
+  margin:0;
+  padding:0 16px;
+  text-align:center;
+  font-size:12.5px;
+  color:var(--champagne-dim);
+  text-shadow:0 2px 10px rgba(0,0,0,.7);
+  pointer-events:none;
+}
+.room-hint span{
+  display:block;
+  font-size:10.5px;font-style:italic;color:var(--muted);margin-top:1px;
+}
+
+@media (min-width:900px){
+  .studio-stage{
+    height:100dvh;
+    background:#2e2017;
+  }
+  .studio-head{padding:18px 36px}
+  .room-hero-art{
+    position:absolute;
+    inset:0;
+    margin-bottom:0;
+    padding-top:0;
+    display:block;
+    overflow:hidden;
+  }
+  /* 16:9 painting covers the viewport; leftover wall color matches the art */
+  .room-shot{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:auto;
+    height:max(100%, calc(100vw * 9 / 16));
+    min-width:100%;
+    min-height:100%;
+    aspect-ratio:16/9;
+    margin:0;
+  }
+  .room-hero{
+    position:absolute;
+    left:0;right:0;
+    top:7.5%;
+    padding:0 24px;
+  }
+  .room-kicker{font-size:10px;letter-spacing:.2em;margin-bottom:4px}
+  .room-hero h1{font-size:clamp(32px,3.3vw,42px)}
+  .room-sub{font-size:13px;margin-top:4px}
+  .room-shot > .hs-label .lbl-zh{font-size:15px}
+  .room-shot > .hs-label .lbl-en{font-size:10.5px}
+  .room-hint{
+    position:absolute;
+    left:0;right:0;
+    bottom:18px;
+    padding:0 280px 0 24px;
+    font-size:13px;
+  }
+  .room-hint span{font-size:12px}
+
+  /* Restore approved desktop 16:9 hotspot boxes (% of room_elvin_solo.jpg) */
+  #hsClapper{left:28.4%;top:18.6%;width:8.0%;height:12.4%}
+  #hsCourse{left:43.0%;top:23.5%;width:12.8%;height:13.8%}
+  #hsWindow{left:63.4%;top:21.0%;width:20.2%;height:43.0%}
+  #hsWorks{left:18.3%;top:48.0%;width:17.2%;height:32.5%}
+  #hsChat{left:32.3%;top:69.2%;width:5.8%;height:18.0%;z-index:6}
+  #hsCat{left:69.4%;top:73.2%;width:9.8%;height:16.5%}
+  .room-shot > .hs-label[data-open-drawer="demos"]{left:36.8%;top:19.2%}
+  .room-shot > .hs-label[data-open-drawer="course"]{left:36.0%;top:25.8%}
+  .room-shot > .hs-label[data-open-drawer="about"]{left:73.8%;top:22.6%}
+  .room-shot > .hs-label[data-open-drawer="works"]{left:19.6%;top:49.4%}
+  .room-shot > .hs-label[data-open-drawer="whatsapp"]{left:38.4%;top:67.4%}
+  .room-shot > .hs-label[data-open-drawer="enroll"]{left:66.8%;right:auto;top:68.8%;align-items:flex-start;text-align:left}
+
+  .poster-caption{display:flex}
+  .monitor-fx{left:19.6%;top:49.6%;width:14.4%;height:24.8%}
+  .cat-paw{left:74.5%;top:75.2%;width:3.8%;height:7.2%}
+}
+

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%23232018%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23c0794d%27/%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>重设密码｜M Branding.aigc · AI 分身视频实战课</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap">
+  <link rel="stylesheet" href="portal.css">
+</head>
+<body class="auth-page">
+  <header class="studio-head">
+    <a class="studio-logo latin" href="./index.html"><span class="studio-dot"></span>M BRANDING.AIGC</a>
+    <nav class="studio-nav">
+      <a href="./login.html">返回登录</a>
+    </nav>
+  </header>
+
+  <main class="auth-center">
+    <div class="auth-card">
+      <div class="dock-brand mono">PASSWORD RECOVERY</div>
+      <div id="requestSection">
+        <h1>忘记密码？</h1>
+        <p class="sub">输入你注册课程时用的邮箱，我们会发一封重设密码邮件给你。</p>
+        <form id="forgotForm">
+          <div class="fg">
+            <label for="email">注册邮箱</label>
+            <input id="email" type="email" required autocomplete="email" placeholder="you@example.com">
+          </div>
+          <button class="btn-primary" id="sendBtn" type="submit">发送重设密码邮件</button>
+          <div class="msg" id="reqMsg"></div>
+        </form>
+      </div>
+
+      <div id="resetSection" style="display:none">
+        <h1>设置新密码</h1>
+        <p class="sub">验证通过，请设置你的新课程登录密码（至少 8 位）。</p>
+        <form id="resetForm">
+          <div class="fg">
+            <label for="newPwd">新密码（至少 8 位）</label>
+            <input id="newPwd" type="password" required minlength="8" autocomplete="new-password" placeholder="输入新密码">
+          </div>
+          <div class="fg">
+            <label for="newPwd2">确认新密码</label>
+            <input id="newPwd2" type="password" required minlength="8" autocomplete="new-password" placeholder="再输入一次">
+          </div>
+          <button class="btn-primary" id="updateBtn" type="submit">确认修改并登录</button>
+          <div class="msg" id="resMsg"></div>
+        </form>
+      </div>
+
+      <div class="dock-foot">
+        <a href="./login.html">← 返回学员登录</a>
+        <a href="./register.html">去注册激活</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="auth-common.js"></script>
+  <script>
+    (async function () {
+      const reqSec = document.getElementById("requestSection");
+      const resSec = document.getElementById("resetSection");
+
+      function showReset() {
+        reqSec.style.display = "none";
+        resSec.style.display = "block";
+      }
+
+      window.sb.auth.onAuthStateChange((event) => {
+        if (event === "PASSWORD_RECOVERY") showReset();
+      });
+
+      if (location.hash.includes("type=recovery") || location.hash === "#recovery") {
+        const { data: { session } } = await window.sb.auth.getSession();
+        if (session) showReset();
+      }
+
+      document.getElementById("forgotForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("sendBtn");
+        const msg = document.getElementById("reqMsg");
+        msg.className = "msg";
+        btn.disabled = true;
+        btn.textContent = "发送中…";
+        try {
+          const email = document.getElementById("email").value.trim().toLowerCase();
+          const redirectTo = window.location.origin + window.location.pathname;
+          const { error } = await window.sb.auth.resetPasswordForEmail(email, { redirectTo });
+          if (error) throw error;
+          msg.className = "msg is-ok";
+          msg.textContent = "如果该邮箱已注册，重设密码链接已经发到你的收件箱（也请留意垃圾邮件文件夹）。";
+        } catch (err) {
+          msg.className = "msg is-err";
+          msg.textContent = err.message || "发送失败，请稍后再试。";
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "发送重设密码邮件";
+        }
+      });
+
+      document.getElementById("resetForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("updateBtn");
+        const msg = document.getElementById("resMsg");
+        msg.className = "msg";
+        const p1 = document.getElementById("newPwd").value;
+        const p2 = document.getElementById("newPwd2").value;
+        if (p1 !== p2) {
+          msg.className = "msg is-err";
+          msg.textContent = "两次输入的密码不一致。";
+          return;
+        }
+        btn.disabled = true;
+        btn.textContent = "保存中…";
+        try {
+          const { error } = await window.sb.auth.updateUser({ password: p1 });
+          if (error) throw error;
+          msg.className = "msg is-ok";
+          msg.textContent = "密码已更新，正在进入课程…";
+          setTimeout(() => location.replace("./index.html"), 800);
+        } catch (err) {
+          msg.className = "msg is-err";
+          msg.textContent = err.message || "更新密码失败，请重试。";
+          btn.disabled = false;
+          btn.textContent = "确认修改并登录";
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
