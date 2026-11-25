@@ -444,11 +444,30 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   z-index:30;
 }
 
-/* Full-bleed 9:16 room, cover-scaled so the desk sits above the caption (v1f) */
-.room-shot{
+/* Pin caption above the bar; scale the room so the desk sits above the caption.
+   Uses svh/dvh so iPhone Safari's toolbar doesn't hide the lines. */
+#landingView{
+  --bar-h: calc(82px + env(safe-area-inset-bottom, 0px));
+  --hint-h: 54px;
+  --gap-hint-bar: clamp(10px, calc(100svh - 808px), 36px);
+  --gap-desk-hint: clamp(14px, calc(100svh - 820px), 24px);
   --desk: .825;
-  --desk-y: 646px;
-  --art-h: 824px;
+  --desk-y: calc(100vh - var(--bar-h) - var(--gap-hint-bar) - var(--hint-h) - var(--gap-desk-hint));
+  --desk-y: calc(100svh - var(--bar-h) - var(--gap-hint-bar) - var(--hint-h) - var(--gap-desk-hint));
+  --desk-y: calc(100dvh - var(--bar-h) - var(--gap-hint-bar) - var(--hint-h) - var(--gap-desk-hint));
+  --art-h: max(calc(100vw * 16 / 9), calc((var(--desk-y) + 34px) / var(--desk)));
+}
+#landingView,
+.studio-stage{
+  min-height:100vh;
+  min-height:100svh;
+  min-height:100dvh;
+  height:100vh;
+  height:100svh;
+  height:100dvh;
+}
+
+.room-shot{
   position:absolute;
   z-index:1;
   height:var(--art-h);
@@ -458,6 +477,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   transform:translateX(-50%);
   overflow:hidden;
   background:#1a1510;
+}
+.room-motion{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  transform-origin:50% 62%;
+  animation:roomBreath 6.2s ease-in-out infinite;
 }
 .room-photo,
 .room-shot picture{
@@ -469,13 +495,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 .room-shot picture{ pointer-events:none; }
 
-/* Title block sits in the wall band, ~50px above shelves/frame */
+/* Title in the wall band, above the shelves; clamps up on short viewports */
 .room-hero{
   position:absolute;
   z-index:8;
   left:20px;
   right:20px;
-  top:161px;
+  top:max(56px, calc(var(--desk-y) - var(--desk) * var(--art-h) + 0.39 * var(--art-h) - 136px));
   text-align:center;
   pointer-events:none;
 }
@@ -505,14 +531,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   color:rgba(201,168,108,.92);
 }
 
-/* Caption: 24px under the desk, both lines fully above the bar */
+/* Caption always sits above the bottom bar, on every viewport height */
 .room-hint{
-  position:absolute;
-  z-index:8;
+  position:fixed;
+  z-index:35;
   left:16px;
   right:16px;
-  top:670px;
-  bottom:auto;
+  top:auto;
+  bottom:calc(var(--bar-h) + var(--gap-hint-bar));
   text-align:center;
   pointer-events:none;
 }
@@ -521,7 +547,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   font-size:13px;
   font-weight:600;
   letter-spacing:.02em;
-  color:rgba(245,236,220,.88);
+  color:rgba(245,236,220,.92);
+  text-shadow:0 1px 8px rgba(12,10,8,.9), 0 0 14px rgba(12,10,8,.55);
 }
 .room-hint .hint-en{
   display:block;
@@ -635,10 +662,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .room-hero h1{ font-size:32px; margin-bottom:10px; }
   .room-sub{ font-size:15px; }
 
-  /* Caption on the front of the desk, left of the login pill — same as live v1 */
+  /* Caption on the desk lip, below the keyboard, left of the login pill */
   .room-hint{
+    position:absolute;
     top:auto;
-    bottom:28px;
+    bottom:12px;
     left:18%;
     right:30%;
   }
@@ -663,4 +691,72 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
   .hs-label .lbl-zh{ font-size:13px; }
   .hs-label .lbl-en{ font-size:9px; }
+}
+
+@media (max-height:700px){
+  .room-kicker{ margin-bottom:4px; font-size:9px; }
+  .room-hero h1{ font-size:19px; margin-bottom:4px; }
+  .room-sub{ font-size:10.5px; }
+  .room-hint p{ font-size:12.5px; }
+  .room-hint .hint-en{ font-size:11px; }
+}
+
+/* ===== Micro-motion (mobile overlays; desktop keeps a soft breath only) ===== */
+.room-fx{ position:absolute; inset:0; pointer-events:none; overflow:visible; }
+.fx{
+  position:absolute;
+  display:block;
+  pointer-events:none;
+  user-select:none;
+  max-width:none;
+}
+.fx-paw{
+  left:89.028%; top:71.797%; width:4.861%; height:6.328%;
+  transform-origin:20% 92.6%;
+  animation:pawWave 3.8s ease-in-out infinite;
+}
+.fx-screen{
+  left:6.94%; top:57.2%; width:20.6%; height:14.5%;
+  border-radius:10px;
+  background:radial-gradient(ellipse at 50% 38%, rgba(190,215,255,.32), rgba(120,170,255,.08) 55%, transparent 75%);
+  mix-blend-mode:screen;
+  animation:screenGlow 4.4s ease-in-out infinite;
+}
+.fx-stars-a, .fx-stars-b{
+  left:71.111%; top:40%; width:26.667%; height:20.312%;
+}
+.fx-stars-a{ animation:twinkleA 3.6s ease-in-out infinite; }
+.fx-stars-b{ animation:twinkleB 4.5s ease-in-out infinite .7s; }
+
+@keyframes roomBreath{
+  0%,100%{ transform:scale(1) translateY(0); }
+  50%{ transform:scale(1.007) translateY(-1.2px); }
+}
+@keyframes pawWave{
+  0%,100%{ transform:rotate(0deg); }
+  42%{ transform:rotate(-7deg); }
+  68%{ transform:rotate(2.5deg); }
+}
+@keyframes screenGlow{
+  0%,100%{ opacity:.28; }
+  50%{ opacity:.7; }
+}
+@keyframes twinkleA{
+  0%,100%{ opacity:.45; }
+  50%{ opacity:1; }
+}
+@keyframes twinkleB{
+  0%,100%{ opacity:1; }
+  50%{ opacity:.35; }
+}
+
+@media (min-width:900px){
+  .room-fx-m{ display:none; }
+  .room-motion{ animation-duration:7.5s; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .room-motion, .fx-paw, .fx-screen, .fx-stars-a, .fx-stars-b{
+    animation:none !important;
+  }
 }
