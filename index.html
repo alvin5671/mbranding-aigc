@@ -19,6 +19,90 @@
     .course-logout-btn:hover{border-color:var(--accent,#1B5E4A);color:var(--accent,#1B5E4A)}
     @media (max-width:720px){.course-user-email{display:none}}
   </style>
+
+  <style id="enrollModalStyle">
+    /* T-18i: lucky-cat enroll modal, scoped */
+    .enroll-modal-bg{
+      position:fixed;inset:0;z-index:120;
+      background:rgba(14,11,8,.72);
+      display:none;
+      align-items:center;justify-content:center;
+      padding:16px;
+      -webkit-overflow-scrolling:touch;
+    }
+    .enroll-modal-bg.is-open{display:flex}
+    .enroll-modal{
+      position:relative;
+      width:100%;
+      max-width:min(400px,100%);
+      box-sizing:border-box;
+      background:var(--paper,#f4f3ee);
+      color:var(--ink,#1b1f1c);
+      border:1px solid var(--line-dark,rgba(239,227,194,.16));
+      border-radius:var(--r,16px);
+      box-shadow:0 18px 50px rgba(8,6,4,.45);
+      padding:28px 22px 24px;
+      text-align:center;
+    }
+    .enroll-modal-x{
+      position:absolute;top:10px;right:10px;
+      width:32px;height:32px;
+      border-radius:50%;
+      background:#e6e4dc;color:var(--ink,#1b1f1c);
+      font-size:20px;line-height:1;
+      display:grid;place-items:center;
+      cursor:pointer;
+    }
+    .enroll-modal-x:hover{background:#dddacd}
+    .enroll-modal-kicker{
+      font-family:"IBM Plex Mono",ui-monospace,monospace;
+      font-size:12px;font-weight:500;
+      letter-spacing:.06em;
+      color:var(--clay,#c0794d);
+      margin:0 0 12px;
+      line-height:1.5;
+      overflow-wrap:anywhere;
+    }
+    .enroll-modal-price{
+      font-family:"IBM Plex Mono",ui-monospace,monospace;
+      font-size:clamp(36px,9vw,48px);
+      font-weight:500;
+      line-height:1.1;
+      color:var(--ink,#1b1f1c);
+      margin:0 0 20px;
+      overflow-wrap:anywhere;
+    }
+    .enroll-modal-points{
+      list-style:none;padding:0;margin:0 0 22px;
+      text-align:left;display:grid;gap:10px;
+    }
+    .enroll-modal-points li{
+      display:flex;align-items:flex-start;gap:10px;
+      font-size:14.5px;line-height:1.55;
+      color:var(--ink-2,#3d453f);
+      overflow-wrap:anywhere;min-width:0;
+    }
+    .enroll-modal-points li::before{
+      content:"✓";
+      flex:0 0 auto;
+      color:var(--accent,#1b5e4a);
+      font-weight:700;font-size:15px;line-height:1.55;
+    }
+    .enroll-modal-btn{
+      display:block;width:100%;
+      box-sizing:border-box;
+      padding:14px 18px;
+      border-radius:12px;
+      background:var(--accent,#1b5e4a);color:#fff;
+      font-size:15px;font-weight:700;
+      text-align:center;cursor:pointer;
+      overflow-wrap:anywhere;
+    }
+    .enroll-modal-btn:hover{background:var(--accent-h,#154b3b)}
+    @media (max-width:390px){
+      .enroll-modal{padding:24px 16px 20px}
+    }
+  </style>
 </head>
 <body>
   <div id="bootMask" class="boot-mask">LOADING · M BRANDING.AIGC…</div>
@@ -167,6 +251,22 @@
     </nav>
 
     <div class="room-toast" id="roomToast"></div>
+
+    <div class="enroll-modal-bg" id="enrollModalBg" hidden>
+      <div class="enroll-modal" id="enrollModal" role="dialog" aria-modal="true" aria-labelledby="enrollModalTitle">
+        <button type="button" class="enroll-modal-x" id="enrollModalClose" aria-label="关闭">×</button>
+        <p class="enroll-modal-kicker" id="enrollModalTitle">HEY AIGC · AI 分身课程</p>
+        <div class="enroll-modal-price">USD 49.90</div>
+        <ul class="enroll-modal-points">
+          <li>21分钟打造你的第一个 AI 分身</li>
+          <li>生成3支 AI 视频带走</li>
+          <li>零基础也能跟着做</li>
+          <li>无需每月订阅课程</li>
+        </ul>
+        <button type="button" class="enroll-modal-btn" id="enrollModalGo">立即报名 →</button>
+      </div>
+    </div>
+
 
     <!-- BOTTOM-RIGHT POPOVER: LOGIN / REGISTER WITH CODE -->
     <div class="dock-backdrop" id="dockBackdrop"></div>
@@ -586,8 +686,84 @@
       document.getElementById("drawerClose").addEventListener("click", closeDrawer);
       drawerBg.addEventListener("click", closeDrawer);
 
+      /* T-18i: lucky-cat 报名 opens a modal first (no href on the cat; it was a drawer). */
+      var enrollModalBg = document.getElementById("enrollModalBg");
+      var enrollModal = document.getElementById("enrollModal");
+      var enrollModalClose = document.getElementById("enrollModalClose");
+      var enrollModalGo = document.getElementById("enrollModalGo");
+      var enrollScrollY = 0;
+      var enrollPrevOverflow = "";
+      function isCatEnrollTrigger(el) {
+        return el && (el.id === "hsCat" || (el.dataset.openDrawer === "enroll" && el.classList.contains("hs-label")));
+      }
+      function lockEnrollScroll() {
+        enrollScrollY = window.scrollY || 0;
+        enrollPrevOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        document.body.style.position = "fixed";
+        document.body.style.top = "-" + enrollScrollY + "px";
+        document.body.style.left = "0";
+        document.body.style.right = "0";
+        document.body.style.width = "100%";
+      }
+      function unlockEnrollScroll() {
+        document.body.style.overflow = enrollPrevOverflow || "";
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.left = "";
+        document.body.style.right = "";
+        document.body.style.width = "";
+        window.scrollTo(0, enrollScrollY);
+      }
+      function openEnrollModal() {
+        if (!enrollModalBg) return;
+        closeDrawer();
+        if (typeof closeLoginDock === "function") closeLoginDock();
+        enrollModalBg.hidden = false;
+        enrollModalBg.classList.add("is-open");
+        lockEnrollScroll();
+        if (enrollModalClose) enrollModalClose.focus();
+      }
+      function closeEnrollModal() {
+        if (!enrollModalBg || enrollModalBg.hidden) return;
+        enrollModalBg.classList.remove("is-open");
+        enrollModalBg.hidden = true;
+        unlockEnrollScroll();
+      }
+      window.__openEnrollModal = openEnrollModal;
+      if (enrollModalClose) enrollModalClose.addEventListener("click", closeEnrollModal);
+      if (enrollModalBg) {
+        enrollModalBg.addEventListener("click", closeEnrollModal);
+      }
+      if (enrollModal) {
+        enrollModal.addEventListener("click", function (e) { e.stopPropagation(); });
+      }
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && enrollModalBg && !enrollModalBg.hidden) {
+          e.preventDefault();
+          closeEnrollModal();
+        }
+      });
+      if (enrollModalGo) {
+        enrollModalGo.addEventListener("click", function () {
+          closeEnrollModal();
+          openDrawer("enroll");
+        });
+      }
+
       document.querySelectorAll("[data-open-drawer]").forEach(el => {
         if (el.tagName === "A") return; // T-14link: 课程介绍 is now an <a target=_blank>
+        if (isCatEnrollTrigger(el)) {
+          el.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            openEnrollModal();
+          });
+          el.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openEnrollModal(); }
+          });
+          return;
+        }
         el.addEventListener("click", () => openDrawer(el.dataset.openDrawer));
         el.addEventListener("keydown", (e) => {
           if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openDrawer(el.dataset.openDrawer); }
