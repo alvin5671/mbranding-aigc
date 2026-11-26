@@ -63,13 +63,15 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .studio-dot{width:8px;height:8px;border-radius:50%;background:var(--clay);box-shadow:0 0 10px rgba(192,121,77,.6)}
 .studio-nav{display:flex;align-items:center;gap:14px;font-size:12.5px;color:var(--champagne-dim)}
 .studio-nav button:hover,.studio-nav a:hover{color:var(--champagne)}
-.nav-wa{
+.nav-community{
   border:1px solid rgba(239,227,194,.38);
   padding:5px 12px;border-radius:999px;
-  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;
+  font-family:"Noto Sans SC","IBM Plex Mono",sans-serif;
+  font-size:11px;letter-spacing:.06em;
   color:var(--champagne);transition:background .18s,border-color .18s;
+  text-decoration:none;
 }
-.nav-wa:hover{background:rgba(239,227,194,.1);border-color:var(--champagne)}
+.nav-community:hover{background:rgba(239,227,194,.1);border-color:var(--champagne);color:var(--champagne)}
 .hide-xs{display:none}
 
 /* Hero Title */
@@ -205,11 +207,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   color:var(--champagne);
   font-size:12px;font-weight:500;
   border-right:1px solid rgba(239,227,194,.1);
+  text-decoration:none;
 }
 .bb-item:last-child{border-right:0}
 .bb-item svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .bb-sub{font-size:10px;color:var(--muted);font-style:italic;line-height:1}
-.bb-wa{color:#9fd3b8}
+a.bb-item{color:var(--champagne)}
 .bb-login{
   background:rgba(27,94,74,.28);
   border-radius:10px;
@@ -280,6 +283,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   margin-top:4px;
 }
 .btn-primary:hover{background:var(--accent-h)}
+a.btn-primary{display:block;text-align:center;text-decoration:none;color:#fff;box-sizing:border-box}
+a.hs,a.hs-label{text-decoration:none;color:inherit}
 .btn-primary:disabled{opacity:.6;cursor:not-allowed}
 .msg{margin-top:10px;padding:9px 11px;border-radius:9px;font-size:12.5px;line-height:1.5;display:none}
 .msg.is-err{display:block;background:#fdf1ef;border:1px solid #ebbfb7;color:#9b2c1a}
@@ -291,7 +296,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 .dock-foot a{color:var(--accent);font-weight:500}
 
-/* ===== SLIDE-OVER DRAWER (WORKS / COURSE INTRO / WHATSAPP) ===== */
+/* ===== SLIDE-OVER DRAWER (WORKS / COURSE INTRO) ===== */
 .drawer-bg{
   position:fixed;inset:0;z-index:80;
   background:rgba(12,10,7,.64);backdrop-filter:blur(4px);
@@ -634,7 +639,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .hs-label[data-open-drawer="enroll"] .lbl-en{ display:none; }
 
 /* Hidden-but-clickable labels stay on their objects */
-.hs-label[data-open-drawer="demos"],
 .hs-label[data-open-drawer="course"],
 .hs-label[data-open-drawer="about"],
 .hs-label[data-open-drawer="works"]{
@@ -649,11 +653,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 #hsChat   { left:21%; top:67%; width:12%; height:13%; }
 #hsCat    { left:70%; top:64%; width:18%; height:16%; }
 
-.hs-label[data-open-drawer="demos"]    { left:10%;  top:39.5%; }
 .hs-label[data-open-drawer="course"]   { left:36%;  top:41.5%; }
 .hs-label[data-open-drawer="about"]    { left:66%;  top:40%; }
 .hs-label[data-open-drawer="works"]    { left:12%;  top:63%; }
-.hs-label[data-open-drawer="whatsapp"] { left:28%;  top:71%; }
+.hs-label-community { left:28%;  top:71%; }
 .hs-label[data-open-drawer="enroll"]   { left:86.11%; top:70.9%; }
 
 .hs-label[data-open-drawer="enroll"] .hs-leader{
@@ -713,12 +716,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   #hsChat   { left:31%; top:68%; width:8%; height:16%; }
   #hsCat    { left:68%; top:76%; width:14%; height:18%; }
 
-  .hs-label[data-open-drawer="demos"]    { left:33%;  top:16%; }
   .hs-label[data-open-drawer="course"]   { left:49%;  top:23%; }
   .hs-label[data-open-drawer="about"]    { left:73%;  top:22%; }
   .hs-label[data-open-drawer="works"]    { left:24%;  top:52%; }
-  /* 找我聊 sits by the phone, between iMac and Elvin */
-  .hs-label[data-open-drawer="whatsapp"] { left:38%;  top:68%; }
+  /* 加入社群 sits by the phone, between iMac and Elvin */
+  .hs-label-community { left:38%;  top:68%; }
   /* 报名 sits directly above the lucky cat */
   .hs-label[data-open-drawer="enroll"]   { left:71.09%; top:77.78%; }
   .hs-label[data-open-drawer="enroll"] .hs-leader{ height:36px; }
@@ -853,78 +855,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     animation:none !important;
   }
   .elvin-plate{ transition:none; }
-}
-
-/* ===== Background music toggle (landing) ===== */
-.bgm-toggle{
-  position:fixed;
-  z-index:45;
-  left:12px;
-  bottom:calc(var(--bar-h, 82px) + 10px);
-  width:40px;
-  height:40px;
-  padding:0;
-  border-radius:50%;
-  border:1px solid rgba(239,227,194,.32);
-  background:rgba(24,20,15,.86);
-  backdrop-filter:blur(10px);
-  color:#f6efe4;
-  cursor:pointer;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 6px 18px rgba(0,0,0,.38);
-  -webkit-tap-highlight-color:transparent;
-}
-.bgm-toggle:not([hidden]){ display:flex; }
-.bgm-toggle:hover,
-.bgm-toggle:focus-visible{
-  border-color:rgba(239,227,194,.6);
-  color:#fff;
-  outline:none;
-}
-.bgm-toggle .bgm-note{
-  width:18px;
-  height:18px;
-  display:block;
-}
-.bgm-toggle .bgm-bars{
-  display:none;
-  align-items:flex-end;
-  justify-content:center;
-  gap:2px;
-  height:14px;
-  width:16px;
-}
-.bgm-toggle .bgm-bars i{
-  display:block;
-  width:2.5px;
-  height:6px;
-  border-radius:1px;
-  background:currentColor;
-  transform-origin:center bottom;
-  animation:bgmBar .9s ease-in-out infinite;
-}
-.bgm-toggle .bgm-bars i:nth-child(1){ animation-delay:0s; }
-.bgm-toggle .bgm-bars i:nth-child(2){ height:11px; animation-delay:.18s; }
-.bgm-toggle .bgm-bars i:nth-child(3){ animation-delay:.32s; }
-.bgm-toggle.is-on .bgm-note{ display:none; }
-.bgm-toggle.is-on .bgm-bars{ display:flex; }
-
-@keyframes bgmBar{
-  0%,100%{ transform:scaleY(.45); }
-  50%{ transform:scaleY(1); }
-}
-
-@media (min-width:900px){
-  .bgm-toggle{
-    left:20px;
-    bottom:20px;
-  }
-}
-
-@media (prefers-reduced-motion:reduce){
-  .bgm-toggle .bgm-bars i{ animation:none; transform:none; height:8px; }
 }
 
 /* ===== Elvin speech bubble ===== */
