@@ -828,6 +828,97 @@
         return list;
       }
 
+
+      /* T-18h: shrink the bubble to the widest rendered line (Safari leftover gap). */
+      function maxTalkLineWidth(el) {
+        var range = document.createRange();
+        var rects = [];
+        var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+        var node, i, list;
+        while ((node = walker.nextNode())) {
+          if (!node.nodeValue) continue;
+          range.selectNodeContents(node);
+          list = range.getClientRects();
+          for (i = 0; i < list.length; i++) rects.push(list[i]);
+        }
+        if (!rects.length) {
+          range.selectNodeContents(el);
+          list = range.getClientRects();
+          for (i = 0; i < list.length; i++) rects.push(list[i]);
+        }
+        var lines = [];
+        var j, r, L, placed;
+        for (i = 0; i < rects.length; i++) {
+          r = rects[i];
+          if (r.width < 0.5 || r.height < 0.5) continue;
+          placed = false;
+          for (j = 0; j < lines.length; j++) {
+            L = lines[j];
+            if (r.top < L.bottom - 0.5 && r.bottom > L.top + 0.5) {
+              if (r.left < L.left) L.left = r.left;
+              if (r.right > L.right) L.right = r.right;
+              if (r.top < L.top) L.top = r.top;
+              if (r.bottom > L.bottom) L.bottom = r.bottom;
+              placed = true;
+              break;
+            }
+          }
+          if (!placed) {
+            lines.push({ left: r.left, right: r.right, top: r.top, bottom: r.bottom });
+          }
+        }
+        var max = 0;
+        for (i = 0; i < lines.length; i++) {
+          var w = lines[i].right - lines[i].left;
+          if (w > max) max = w;
+        }
+        return max;
+      }
+
+      function fitTalkWidth() {
+        if (!bubble || bubble.hidden || !textEl) return;
+        try { textEl.style.textWrap = "balance"; } catch (err) {}
+        bubble.style.width = "";
+        void bubble.offsetWidth;
+        var cs = getComputedStyle(bubble);
+        var padX = (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0);
+        var borderX = (parseFloat(cs.borderLeftWidth) || 0) + (parseFloat(cs.borderRightWidth) || 0);
+        var maxCap = parseFloat(cs.maxWidth);
+        if (!isFinite(maxCap) || maxCap <= 0) maxCap = bubble.offsetWidth;
+        var extra = (cs.boxSizing === "border-box") ? Math.round(padX + borderX) : 0;
+        var h0 = bubble.offsetHeight;
+        var lineW = maxTalkLineWidth(textEl);
+        if (lineW < 1) return;
+        var w = Math.ceil(lineW + 1) + extra;
+        if (w > maxCap) w = Math.floor(maxCap);
+        bubble.style.width = w + "px";
+        void bubble.offsetWidth;
+        if (bubble.offsetHeight > h0 + 1) {
+          w = Math.min(maxCap, w + 2);
+          bubble.style.width = w + "px";
+          void bubble.offsetWidth;
+        }
+        /* text-wrap:balance may shorten lines after the first shrink; tighten again. */
+        var n = 0;
+        while (n < 4) {
+          var h = bubble.offsetHeight;
+          lineW = maxTalkLineWidth(textEl);
+          if (lineW < 1) break;
+          var cur = bubble.offsetWidth;
+          var want = Math.ceil(lineW + 1) + extra;
+          if (want > maxCap) want = Math.floor(maxCap);
+          if (cur - want <= 2) break;
+          bubble.style.width = want + "px";
+          void bubble.offsetWidth;
+          if (bubble.offsetHeight > h + 1) {
+            bubble.style.width = cur + "px";
+            void bubble.offsetWidth;
+            break;
+          }
+          n += 1;
+        }
+      }
+
       function place() {
         var hr = hs.getBoundingClientRect();
         if (hr.width < 4) return;
@@ -912,6 +1003,7 @@
         idx = i;
         textEl.innerHTML = formatTalk(lineAt(idx));
         bubble.hidden = false;
+        fitTalkWidth();
         place();
         if (animate !== false) pop();
         place();
@@ -928,9 +1020,9 @@
         next();
       });
 
-      window.addEventListener("resize", function () { place(); });
+      window.addEventListener("resize", function () { fitTalkWidth(); place(); });
       if (window.visualViewport) {
-        window.visualViewport.addEventListener("resize", place);
+        window.visualViewport.addEventListener("resize", function () { fitTalkWidth(); place(); });
       }
 
       /* For previews / QA: window.__setTalk(-1) default, 0..13 for lines */
@@ -943,7 +1035,7 @@
         var lv = document.getElementById("landingView");
         if (lv && (lv.style.display === "none" || getComputedStyle(lv).display === "none")) return;
         if (!textEl.textContent) show(-1, true);
-        else place();
+        else { fitTalkWidth(); place(); }
       }
 
       var lv = document.getElementById("landingView");
@@ -954,7 +1046,7 @@
           } else {
             bubble.hidden = false;
             if (!textEl.textContent) show(-1, true);
-            else place();
+            else { fitTalkWidth(); place(); }
           }
         }).observe(lv, { attributes: true, attributeFilter: ["style", "class"] });
       }
