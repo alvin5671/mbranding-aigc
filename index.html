@@ -29,7 +29,7 @@
       <a class="studio-logo" href="./index.html"><span class="studio-dot"></span>M BRANDING.AIGC</a>
       <nav class="studio-nav">
         <button type="button" class="hide-xs" data-open-drawer="works">作品</button>
-        <a href="https://claude.ai/artifact/R251Yg2egkzURmRdFhYKWC" target="_blank" rel="noopener noreferrer">课程介绍</a>
+        <a href="./sales.html">课程介绍</a>
         <a class="nav-community" href="https://t.me/+DM2kR9w0xlo1Mjll" target="_blank" rel="noopener noreferrer">加入社群</a>
       </nav>
     </header>
@@ -97,10 +97,10 @@
           <span class="lbl-en">WORKS</span>
         </span>
 
-        <a class="hs" id="hsCourse" href="https://claude.ai/artifact/R251Yg2egkzURmRdFhYKWC" target="_blank" rel="noopener noreferrer" aria-label="课程介绍">
+        <a class="hs" id="hsCourse" href="./sales.html" aria-label="课程介绍">
           <span class="hs-glow"></span>
         </a>
-        <a class="hs-label" href="https://claude.ai/artifact/R251Yg2egkzURmRdFhYKWC" target="_blank" rel="noopener noreferrer" data-open-drawer="course">
+        <a class="hs-label" href="./sales.html" data-open-drawer="course">
           <span class="lbl-zh">课程介绍</span>
           <span class="lbl-en">COURSE</span>
         </a>
@@ -337,13 +337,23 @@
           topbarIn.appendChild(userBar);
         }
 
-        const assetImgs = courseRoot.querySelectorAll("img[data-asset]");
-        for (const img of assetImgs) {
-          const path = img.getAttribute("data-asset");
+        // T-18c: sign both images and lesson videos (and optional poster) from the private bucket
+        const assetEls = courseRoot.querySelectorAll("img[data-asset], video[data-asset]");
+        for (const el of assetEls) {
+          const path = el.getAttribute("data-asset");
           const { data: signed } = await window.sb.storage
             .from("course-assets")
             .createSignedUrl(path, 3600);
-          if (signed?.signedUrl) img.src = signed.signedUrl;
+          if (signed?.signedUrl) el.src = signed.signedUrl;
+          if (el.tagName === "VIDEO") {
+            const posterPath = el.getAttribute("data-poster-asset");
+            if (posterPath) {
+              const { data: poster } = await window.sb.storage
+                .from("course-assets")
+                .createSignedUrl(posterPath, 3600);
+              if (poster?.signedUrl) el.poster = poster.signedUrl;
+            }
+          }
         }
 
         bootMask.style.display = "none";
