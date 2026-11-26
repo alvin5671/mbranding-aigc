@@ -1054,9 +1054,28 @@
       function fitTalkWidth() {
         if (!bubble || bubble.hidden || !textEl) return;
         try { textEl.style.textWrap = "balance"; } catch (err) {}
+        try {
+          textEl.style.textAlign = "center";
+          bubble.style.textAlign = "center";
+        } catch (err2) {}
         bubble.style.width = "";
         void bubble.offsetWidth;
         var cs = getComputedStyle(bubble);
+        /* T-18j: equal horizontal (and vertical) padding, keep existing amounts. */
+        var padL = parseFloat(cs.paddingLeft) || 0;
+        var padR = parseFloat(cs.paddingRight) || 0;
+        var padT = parseFloat(cs.paddingTop) || 0;
+        var padB = parseFloat(cs.paddingBottom) || 0;
+        var padXOne = Math.max(padL, padR);
+        var padYOne = Math.max(padT, padB);
+        if (padL !== padXOne || padR !== padXOne || padT !== padYOne || padB !== padYOne) {
+          bubble.style.paddingLeft = padXOne + "px";
+          bubble.style.paddingRight = padXOne + "px";
+          bubble.style.paddingTop = padYOne + "px";
+          bubble.style.paddingBottom = padYOne + "px";
+          void bubble.offsetWidth;
+          cs = getComputedStyle(bubble);
+        }
         var padX = (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0);
         var borderX = (parseFloat(cs.borderLeftWidth) || 0) + (parseFloat(cs.borderRightWidth) || 0);
         var maxCap = parseFloat(cs.maxWidth);
@@ -1152,6 +1171,11 @@
           var sc = score(c);
           if (sc < bestS) { bestS = sc; best = c; }
         });
+
+        /* T-18j: when the bubble sits above the character, center it horizontally. */
+        if ((best.side || "bottom") === "bottom") {
+          best.left = Math.max(m, Math.min(headX - bw * 0.5, vw - bw - m));
+        }
 
         bubble.style.left = Math.round(best.left) + "px";
         bubble.style.top = Math.round(best.top) + "px";
