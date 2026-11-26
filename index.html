@@ -48,10 +48,19 @@
             <img class="room-photo" src="room_elvin_solo_mobile_v1h.jpg" alt="M Branding.aigc 工作室：Elvin 在桌前" width="720" height="1280">
           </picture>
           <div class="room-fx room-fx-m" aria-hidden="true">
-            <img class="fx fx-paw" src="fx_paw_m.png" alt="">
+            <img class="fx fx-paw-cover fx-paw-cover-m" src="fx_paw_cover_m.png" alt="">
+            <img class="fx fx-paw fx-paw-m" src="fx_paw_m.png" alt="">
             <div class="fx fx-screen"></div>
             <img class="fx fx-stars-a" src="fx_stars_a_m.png" alt="">
             <img class="fx fx-stars-b" src="fx_stars_b_m.png" alt="">
+          </div>
+          <div class="room-fx room-fx-d" aria-hidden="true">
+            <img class="fx fx-paw-cover fx-paw-cover-d" src="fx_paw_cover_d.png" alt="">
+            <img class="fx fx-paw fx-paw-d" src="fx_paw_d.png" alt="">
+          </div>
+          <div class="elvin-plate" aria-hidden="true">
+            <span class="plate-name">Elvin 陈奇嵩</span>
+            <span class="plate-tag">简单带你做出分身视频</span>
           </div>
         </div>
 
@@ -101,9 +110,13 @@
         <span class="hs-label" data-open-drawer="enroll">
           <span class="lbl-zh">报名</span>
           <span class="lbl-en">ENROLL · USD 49.90</span>
+          <span class="hs-leader" aria-hidden="true"></span>
         </span>
 
         <button type="button" class="hs hs-elvin" id="hsElvin" aria-label="和 Elvin 聊聊" aria-controls="talkBubble">
+          <span class="hs-glow"></span>
+        </button>
+        <button type="button" class="hs hs-hands" id="hsHands" aria-label="查看讲师名字">
           <span class="hs-glow"></span>
         </button>
       </div>
@@ -417,28 +430,23 @@
           html: `
             <p style="font-size:13.5px;color:var(--ink-2);margin-bottom:14px">报名附送 1400 HeyAIGC 积分（720P 每支 420 积分），课程手把手教你在下面 3 种真实商业场景直接套用模板出片：</p>
             <div class="dw-card">
-              <div class="dw-tag">DEMO 01 · 产品宣传</div>
-              <h4>达人饮品种草（15 秒三镜头）</h4>
-              <p>用 Character Sheet + 1–3 张产品图，在 HeyAIGC「产品展示」做出钩子→喝一口→行动号召。</p>
-              <div class="drawer-script">镜头1（0-5s）：微笑举起产品："家人们这个你们必须试试！"
-镜头2（5-10s）：硬切近景喝一口："嗯～"
-镜头3（10-15s）：举到脸旁竖大拇指："真的超顺滑，相信我直接冲！"</div>
+              <div class="dw-tag">DEMO 01</div>
+              <h4>产品宣传</h4>
+              <p class="dw-sub">达人带货、种草</p>
+              <video class="dw-video" controls playsinline preload="metadata" poster="demo_product_poster.jpg" src="demo_product.mp4"></video>
             </div>
             <div class="dw-card">
-              <div class="dw-tag">DEMO 02 · 服务宣传</div>
-              <h4>签证咨询口播（15 秒顾问出镜）</h4>
-              <p>用 Character Sheet + 机场场景图，在「IP/服务」模板讲解痛点与方案。</p>
-              <div class="drawer-script">镜头1（0-5s）："来马来西亚，签证不要随便办。"
-镜头2（5-10s）：展示护照："延期、工作、第二家园，每一种情况都不一样。"
-镜头3（10-15s）："先咨询、先评估，再安排更安心。"</div>
+              <div class="dw-tag">DEMO 02</div>
+              <h4>服务宣传</h4>
+              <p class="dw-sub">顾问出镜讲解</p>
+              <video class="dw-video" controls playsinline preload="metadata" poster="demo_service_poster.jpg" src="demo_service.mp4"></video>
             </div>
             <div class="dw-card">
-              <div class="dw-tag">DEMO 03 · 个人 IP</div>
-              <h4>街头观点自拍（15 秒一镜到底）</h4>
-              <p>前置自拍视角，适合老板、顾问与创作者持续输出日常观点。</p>
-              <div class="drawer-script">一镜到底："有句话，我一直很喜欢——一切都会过去。这句话，我信了很多年。后来才发现——会过去的，也包括当初相信它的我。"</div>
+              <div class="dw-tag">DEMO 03</div>
+              <h4>个人 IP</h4>
+              <p class="dw-sub">老板、创作者日常观点</p>
+              <video class="dw-video" controls playsinline preload="metadata" poster="demo_ip_poster.jpg" src="demo_ip.mp4"></video>
             </div>
-            <div class="ph-box">[占位] EDU-008 三支示范视频成品定稿后将嵌入此处直接播放。</div>
           `
         },
         course: {
@@ -737,7 +745,7 @@
         "收藏了那么多个 Prompt，作品呢？",
         "别人用 AI 赚钱，你在这边帮我增加点击率。",
         "不要以为点到最后，课程会免费哦！",
-        "USD 49.90 罢了，你考虑到好像要收购我公司。",
+        "USD 49.90，学完带走 3 支作品。你考虑到好像要收购我公司咯 😂",
         "点报名啊！跟着做就学会了，搞个作品出来给我"
       ];
 
@@ -757,12 +765,14 @@
          Optional mobile-only <br> after a natural pause (hidden on desktop). */
       var TALK_BR_AFTER = [
         "别人用 AI 赚钱，",
-        "USD 49.90 罢了，",
+        "USD 49.90，学完带走 3 支作品。",
         "点报名啊！跟着做就学会了，"
       ];
       function formatTalk(s) {
         var tokens = [
           "USD 49.90",
+          "学完带走 3 支作品",
+          "3 支作品",
           "增加点击率",
           "点击率",
           "考虑到",
@@ -781,9 +791,8 @@
         var i;
         for (i = 0; i < TALK_BR_AFTER.length; i++) {
           var cut = TALK_BR_AFTER[i];
-          if (out.indexOf(cut) === 0 || out.indexOf(cut) > -1) {
+          if (out.indexOf(cut) !== -1) {
             out = out.split(cut).join(cut + "\n");
-            break;
           }
         }
         for (i = 0; i < tokens.length; i++) {
@@ -954,6 +963,30 @@
 
       if (document.readyState === "complete") setTimeout(ready, 50);
       else window.addEventListener("load", function () { setTimeout(ready, 50); });
+    })();
+
+    (function () {
+      var plate = document.querySelector(".elvin-plate");
+      var hs = document.getElementById("hsHands");
+      if (!plate || !hs) return;
+      var timer = null;
+      function hide() {
+        plate.classList.remove("is-on");
+        plate.setAttribute("aria-hidden", "true");
+        if (timer) { clearTimeout(timer); timer = null; }
+      }
+      function show() {
+        plate.classList.add("is-on");
+        plate.setAttribute("aria-hidden", "false");
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(hide, 4000);
+      }
+      hs.addEventListener("click", function (e) {
+        e.stopPropagation();
+        if (plate.classList.contains("is-on")) hide();
+        else show();
+      });
+      window.__setPlate = function (on) { if (on) show(); else hide(); };
     })();
   </script>
 </html>
