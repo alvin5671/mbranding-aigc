@@ -29,7 +29,7 @@
       <a class="studio-logo" href="./index.html"><span class="studio-dot"></span>M BRANDING.AIGC</a>
       <nav class="studio-nav">
         <button type="button" class="hide-xs" data-open-drawer="works">作品</button>
-        <button type="button" data-open-drawer="course">课程介绍</button>
+        <a href="https://claude.ai/artifact/34fsuz61CseZUc6EXxMG5U" target="_blank" rel="noopener noreferrer">课程介绍</a>
         <a class="nav-community" href="https://t.me/+DM2kR9w0xlo1Mjll" target="_blank" rel="noopener noreferrer">加入社群</a>
       </nav>
     </header>
@@ -97,13 +97,13 @@
           <span class="lbl-en">WORKS</span>
         </span>
 
-        <button type="button" class="hs" id="hsCourse" data-open-drawer="course" aria-label="课程介绍">
+        <a class="hs" id="hsCourse" href="https://claude.ai/artifact/34fsuz61CseZUc6EXxMG5U" target="_blank" rel="noopener noreferrer" aria-label="课程介绍">
           <span class="hs-glow"></span>
-        </button>
-        <span class="hs-label" data-open-drawer="course">
+        </a>
+        <a class="hs-label" href="https://claude.ai/artifact/34fsuz61CseZUc6EXxMG5U" target="_blank" rel="noopener noreferrer" data-open-drawer="course">
           <span class="lbl-zh">课程介绍</span>
           <span class="lbl-en">COURSE</span>
-        </span>
+        </a>
 
         <button type="button" class="hs" id="hsWindow" data-open-drawer="about" aria-label="关于讲师">
           <span class="hs-glow"></span>
@@ -577,6 +577,7 @@
       drawerBg.addEventListener("click", closeDrawer);
 
       document.querySelectorAll("[data-open-drawer]").forEach(el => {
+        if (el.tagName === "A") return; // T-14link: 课程介绍 is now an <a target=_blank>
         el.addEventListener("click", () => openDrawer(el.dataset.openDrawer));
         el.addEventListener("keydown", (e) => {
           if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openDrawer(el.dataset.openDrawer); }
