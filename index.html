@@ -317,6 +317,12 @@
 
         courseRoot.innerHTML = mod.body_html;
 
+        // T-13: M05/M06 的静态 .pcard（Scene Prompt、示范脚本）没有任何脚本加 .is-on，
+        // 共用 CSS 里 .pcard 默认 display:none，所以一直被隐藏。这里在注入后补上 .is-on。
+        if (slug === "m05" || slug === "m06") {
+          courseRoot.querySelectorAll(".pcard:not(.is-on)").forEach(c => c.classList.add("is-on"));
+        }
+
         const topbarIn = courseRoot.querySelector(".topbar-in");
         if (topbarIn) {
           const userBar = document.createElement("div");
