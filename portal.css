@@ -975,3 +975,51 @@ a.hs,a.hs-label{text-decoration:none;color:inherit}
 @media (prefers-reduced-motion:reduce){
   .talk-bubble.is-pop{ animation:none; }
 }
+
+/* ===== T-12: clapperboard stick follows the BGM state (open = playing, closed = muted) ===== */
+.clap-svg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:visible;
+}
+.clap-svg-d{ display:none; }
+.clap-arm{
+  transform:rotate(0deg);
+  transform-origin:0 0;
+}
+.clap-svg.is-on .clap-arm{
+  transform:rotate(-24deg);
+  animation:clapSway 3.6s ease-in-out infinite alternate;
+}
+.clap-svg.clap-opening .clap-arm{
+  animation:clapOpen .34s cubic-bezier(.2,.7,.3,1) both, clapSway 3.6s ease-in-out .34s infinite alternate;
+}
+.clap-svg.clap-shutting .clap-arm{
+  animation:clapShut .36s linear both;
+}
+@keyframes clapOpen{
+  0%{ transform:rotate(0deg); }
+  55%{ transform:rotate(-31deg); }
+  100%{ transform:rotate(-22.5deg); }
+}
+@keyframes clapSway{
+  0%{ transform:rotate(-22.5deg); }
+  100%{ transform:rotate(-26deg); }
+}
+@keyframes clapShut{
+  0%{ transform:rotate(-24deg); animation-timing-function:cubic-bezier(.7,0,1,.7); }
+  36%{ transform:rotate(0deg); animation-timing-function:ease-out; }
+  56%{ transform:rotate(-5deg); animation-timing-function:ease-in; }
+  74%,100%{ transform:rotate(0deg); }
+}
+@media (min-width:900px){
+  .clap-svg-m{ display:none; }
+  .clap-svg-d{ display:block; }
+}
+@media (prefers-reduced-motion:reduce){
+  .clap-svg .clap-arm{ animation:none !important; }
+  .clap-svg.is-on .clap-arm{ transform:rotate(-24deg); }
+}
